@@ -7,8 +7,8 @@ import Footer from "@/components/footer";
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lezzet Dünyası | En İyi Yemek Tarifleri",
-  description: "Evinizde hazırlayabileceğiniz pratik, lezzetli ve nefis yemek tarifleri.",
+  title: "Whisk | Discover & Share Delicious Recipes",
+  description: "Explore practical, delicious, and easy-to-cook recipes made right at your home.",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr" className="h-full">
+    <html lang="en" className="h-full">
       <body className={`${jakarta.className} flex flex-col min-h-screen bg-slate-50 text-slate-900 antialiased`}>
         <Navbar />
         <main className="flex-grow">{children}</main>

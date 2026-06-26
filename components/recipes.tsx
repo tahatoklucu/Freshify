@@ -17,11 +17,8 @@ interface RecipesProps {
 export default function Recipes({ recipes, categoryName, categoryDescription }: RecipesProps) {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-      {/* ---------------- CATEGORY PAGE HEADER AREA ---------------- */}
       {categoryName ? (
         <div className="mb-10">
-          {/* Back to Categories Link */}
           <Link 
             href="/" 
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-orange-500 transition-colors mb-6 group"
@@ -29,8 +26,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
             <LucideChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             <span>Categories</span>
           </Link>
-
-          {/* Title and Stats Badge */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-slate-200/60">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-1.5 text-orange-500 text-xs font-bold uppercase tracking-widest">
@@ -44,8 +39,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
                 {categoryDescription || "Exquisite flavors and step-by-step practical recipes."}
               </p>
             </div>
-
-            {/* Total Count Badge */}
             <div className="flex items-center gap-3 bg-white border border-slate-100 rounded-2xl py-2.5 px-4 shadow-sm w-fit self-start sm:self-auto">
               <div className="w-9 h-9 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500">
                 <LucideFlame className="w-4 h-4" />
@@ -58,8 +51,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
               </div>
             </div>
           </div>
-
-          {/* Section Title inside Category */}
           <div className="mt-8">
             <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
               Featured Recipes
@@ -70,7 +61,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
           </div>
         </div>
       ) : (
-        // ---------------- HOME PAGE HEADER AREA ----------------
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
             Featured Recipes
@@ -80,8 +70,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
           </p>
         </div>
       )}
-
-      {/* ---------------- RECIPE CARDS GRID ---------------- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {recipes?.map((recipe) => (
           <div
@@ -106,7 +94,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
               </span>
             </div>
 
-            {/* Content Area */}
             <div className="p-5 flex flex-col flex-grow">
               <h3 className="font-bold text-slate-800 text-lg line-clamp-1 group-hover:text-orange-500 transition-colors">
                 {recipe.name}
@@ -116,7 +103,6 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
                 {recipe.description || "No description has been added for this recipe yet."}
               </p>
 
-              {/* Recipe Meta Info (Time and Difficulty) */}
               <div className="flex items-center justify-between border-t border-slate-50 mt-4 pt-4 text-xs font-medium text-slate-500">
                 <div className="flex items-center gap-1">
                   <LucideClock className="w-3.5 h-3.5 text-orange-400" />

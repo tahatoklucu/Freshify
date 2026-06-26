@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-12">
       <Categories categories={allCategories} />
-      <Recipes recipes={allRecipes as any} />
+      <Recipes recipes={allRecipes} />
     </div>
   );
 }
