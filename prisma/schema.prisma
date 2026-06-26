@@ -25,7 +25,11 @@ model Item {
   slug          String    @unique
   imageUrl      String?
   description   String?
+  rating        Float     @default(0)
+  ratingCount   Int       @default(0)
 
   categoryId    String
   category      Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  reviews       String?
 }

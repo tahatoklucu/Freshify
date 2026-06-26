@@ -72,38 +72,48 @@ async function main() {
     data: [
       {
         name: 'Baked Saucy Chicken',
-        slug: 'baked-saucy-chicken', // SİL BAŞTAN EKLENDİ
+        slug: 'baked-saucy-chicken',
         description: 'Perfectly roasted oven chicken tossed with baby potatoes and a special herb-infused spice blend.',
         imageUrl: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=800&q=80',
         categoryId: mains.id,
+        rating: 0,
+        ratingCount: 0,
       },
       {
         name: 'Traditional Stuffed Eggplant',
-        slug: 'traditional-stuffed-eggplant', // SİL BAŞTAN EKLENDİ
+        slug: 'traditional-stuffed-eggplant',
         description: 'Classic roasted eggplants stuffed with a savory minced meat, onion, and tomato filling.',
         imageUrl: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=800&q=80',
         categoryId: mains.id,
+        rating: 0,
+        ratingCount: 0,
       },
       {
         name: 'Chocolate Lava Cake',
-        slug: 'chocolate-lava-cake', // SİL BAŞTAN EKLENDİ
+        slug: 'chocolate-lava-cake',
         description: 'Freshly baked, decadent chocolate soufflé with a rich, warm flowing liquid center.',
         imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c',
         categoryId: desserts.id,
+        rating: 0,
+        ratingCount: 0,
       },
       {
         name: 'Red Lentil Soup',
-        slug: 'red-lentil-soup', // SİL BAŞTAN EKLENDİ
+        slug: 'red-lentil-soup',
         description: 'Restaurant-style smooth lentil soup served with a drizzle of warm, sizzling chili-butter sauce.',
         imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554',
         categoryId: soups.id,
+        rating: 0,
+        ratingCount: 0,
       },
       {
         name: 'Classic Caesar Salad',
-        slug: 'classic-caesar-salad', // SİL BAŞTAN EKLENDİ
+        slug: 'classic-caesar-salad',
         description: 'Crisp romaine lettuce topped with tender grilled chicken breast strips, crunchy garlic croutons, and premium Caesar dressing.',
         imageUrl: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9',
         categoryId: salads.id,
+        rating: 0,
+        ratingCount: 0,
       },
     ],
   });
@@ -117,6 +127,5 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    // Gracefully disconnect Prisma client when finished
     await prisma.$disconnect();
   });

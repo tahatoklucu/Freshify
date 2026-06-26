@@ -5,8 +5,12 @@ interface Recipe {
   id: string;
   name: string;
   slug: string;
+  review?: string;
   imageUrl?: string | null;
   description?: string | null;
+  rating: number;
+  ratingCount: number;
+  reviews?: string | null;
 }
 
 interface RecipesProps {
