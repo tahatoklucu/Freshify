@@ -4,6 +4,7 @@ import Link from "next/link";
 interface Recipe {
   id: string;
   name: string;
+  slug: string;
   imageUrl?: string | null;
   description?: string | null;
 }
@@ -72,11 +73,11 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {recipes?.map((recipe) => (
-          <div
+          <Link
+          href={`/recipes/${recipe.slug}`} 
             key={recipe.id}
             className="group bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-xl hover:border-orange-100 transition-all duration-300 flex flex-col cursor-pointer"
           >
-            {/* Image Area */}
             <div className="relative aspect-video w-full overflow-hidden bg-slate-100">
               {recipe.imageUrl ? (
                 <img
@@ -114,7 +115,7 @@ export default function Recipes({ recipes, categoryName, categoryDescription }: 
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

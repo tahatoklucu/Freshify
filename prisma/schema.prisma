@@ -22,6 +22,7 @@ model Category {
 model Item {
   id            String    @id @default(cuid())
   name          String
+  slug          String    @unique
   imageUrl      String?
   description   String?
 

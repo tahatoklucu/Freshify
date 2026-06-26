@@ -68,38 +68,42 @@ async function main() {
 
   console.log('✅ Categories successfully created. Now injecting recipe items...');
 
-  // 2. CREATING RECIPE ITEMS (In English)
   await prisma.item.createMany({
     data: [
       {
         name: 'Baked Saucy Chicken',
+        slug: 'baked-saucy-chicken', // SİL BAŞTAN EKLENDİ
         description: 'Perfectly roasted oven chicken tossed with baby potatoes and a special herb-infused spice blend.',
         imageUrl: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=800&q=80',
-        categoryId: mains.id, // Connected to Main Dishes
+        categoryId: mains.id,
       },
       {
         name: 'Traditional Stuffed Eggplant',
+        slug: 'traditional-stuffed-eggplant', // SİL BAŞTAN EKLENDİ
         description: 'Classic roasted eggplants stuffed with a savory minced meat, onion, and tomato filling.',
         imageUrl: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=800&q=80',
-        categoryId: mains.id, // Connected to Main Dishes
+        categoryId: mains.id,
       },
       {
         name: 'Chocolate Lava Cake',
+        slug: 'chocolate-lava-cake', // SİL BAŞTAN EKLENDİ
         description: 'Freshly baked, decadent chocolate soufflé with a rich, warm flowing liquid center.',
         imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c',
-        categoryId: desserts.id, // Connected to Desserts
+        categoryId: desserts.id,
       },
       {
         name: 'Red Lentil Soup',
+        slug: 'red-lentil-soup', // SİL BAŞTAN EKLENDİ
         description: 'Restaurant-style smooth lentil soup served with a drizzle of warm, sizzling chili-butter sauce.',
         imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554',
-        categoryId: soups.id, // Connected to Soups
+        categoryId: soups.id,
       },
       {
         name: 'Classic Caesar Salad',
+        slug: 'classic-caesar-salad', // SİL BAŞTAN EKLENDİ
         description: 'Crisp romaine lettuce topped with tender grilled chicken breast strips, crunchy garlic croutons, and premium Caesar dressing.',
         imageUrl: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9',
-        categoryId: salads.id, // Connected to Salads
+        categoryId: salads.id,
       },
     ],
   });
