@@ -2,10 +2,10 @@ import { PrismaClient } from '@prisma/client';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
-// .env dosyasının tam yolunu bul ve zorla yükle
+// Find and force load the exact path of the .env file
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
-// Garanti olması için PrismaClient'a url'i doğrudan besliyoruz
+// Pass the database URL directly to PrismaClient to guarantee loading
 const prisma = new PrismaClient({
   datasources: {
     db: {
@@ -15,103 +15,104 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  console.log('🔄 Veritabanı temizleniyor ve seed işlemi başlıyor...');
+  console.log('🔄 Cleaning up database and starting seed process...');
   
-  // Eğer DATABASE_URL hala yüklenemediyse erkenden hata fırlatıp görelim
+  // Early check to fail fast if DATABASE_URL is still missing
   if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL çevre değişkeni yüklenemedi! .env dosyanızı kontrol edin.");
+    throw new Error("DATABASE_URL environment variable could not be loaded! Check your .env file.");
   }
 
-  // ⚠️ ÖNEMLİ: İlişkili tablolarda önce bağımlı olan (Item), sonra ana tablo (Category) silinir.
+  // ⚠️ CRITICAL: In relational databases, delete child data (Item) before parent data (Category).
   await prisma.item.deleteMany();
   await prisma.category.deleteMany();
 
-  // 1. KATEGORİLERİ OLUŞTURMA
-  // createMany yerine tek tek create yapıyoruz çünkü oluşturulan kategorilerin ID'lerini 
-  // tarifleri (items) birbirine bağlarken kullanacağız.
+  // 1. CREATING CATEGORIES (In English)
+  // We use single creates instead of createMany to easily capture the generated IDs
+  // and map them seamlessly to the recipe items.
   
-  const anaYemek = await prisma.category.create({
+  const mains = await prisma.category.create({
     data: {
-      name: 'Ana Yemekler',
-      slug: 'ana-yemekler',
-      description: 'Et, tavuk ve sebze ağırlıklı nefis akşam yemeği alternatifleri.',
+      name: 'Main Dishes',
+      slug: 'main-dishes',
+      description: 'Delicious dinner alternatives featuring meat, chicken, and healthy vegetables.',
       imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
     },
   });
 
-  const tatlilar = await prisma.category.create({
+  const desserts = await prisma.category.create({
     data: {
-      name: 'Tatlılar',
-      slug: 'tatlilar',
-      description: 'Sütlü, şerbetli ve çikolatalı en enfes tatlı tarifleri.',
+      name: 'Desserts',
+      slug: 'desserts',
+      description: 'The most exquisite milk-based, syrupy, and rich chocolate dessert recipes.',
       imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587',
     },
   });
 
-  const corbalar = await prisma.category.create({
+  const soups = await prisma.category.create({
     data: {
-      name: 'Çorbalar',
-      slug: 'corbalar',
-      description: 'İçinizi ısıtacak, her mevsime uygun pratik çorbalar.',
+      name: 'Soups',
+      slug: 'soups',
+      description: 'Heartwarming, comforting, and practical soups perfect for every season.',
       imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554',
     },
   });
 
-  const salatalar = await prisma.category.create({
+  const salads = await prisma.category.create({
     data: {
-      name: 'Salatalar',
-      slug: 'salatalar',
-      description: 'Diyet dostu, taze ve sağlıklı salata çeşitleri.',
+      name: 'Salads',
+      slug: 'salads',
+      description: 'Diet-friendly, fresh, crisp, and vibrant healthy salad selections.',
       imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd',
     },
   });
 
-  console.log('✅ Kategoriler başarıyla oluşturuldu. Şimdi tarifler (items) ekleniyor...');
+  console.log('✅ Categories successfully created. Now injecting recipe items...');
 
+  // 2. CREATING RECIPE ITEMS (In English)
   await prisma.item.createMany({
     data: [
       {
-        name: 'Fırında Soslu Tavuk',
-        description: 'Patates ve özel baharat sosuyla harmanlanmış, nar gibi kızarmış fırın tavuk tarifi.',
+        name: 'Baked Saucy Chicken',
+        description: 'Perfectly roasted oven chicken tossed with baby potatoes and a special herb-infused spice blend.',
         imageUrl: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=800&q=80',
-        categoryId: anaYemek.id,
+        categoryId: mains.id, // Connected to Main Dishes
       },
       {
-        name: 'Karnıyarık',
-        description: 'Geleneksel kıymalı harç ile doldurulmuş nefis köz patlıcan yemeği.',
+        name: 'Traditional Stuffed Eggplant',
+        description: 'Classic roasted eggplants stuffed with a savory minced meat, onion, and tomato filling.',
         imageUrl: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=800&q=80',
-        categoryId: anaYemek.id,
+        categoryId: mains.id, // Connected to Main Dishes
       },
       {
-        name: 'Çikolatalı Sufle',
-        description: 'Akışkan sıcak çikolata dolgulu, taze pişmiş enfes sufle.',
+        name: 'Chocolate Lava Cake',
+        description: 'Freshly baked, decadent chocolate soufflé with a rich, warm flowing liquid center.',
         imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c',
-        categoryId: tatlilar.id, // Tatlılar kategorisine bağlandı
+        categoryId: desserts.id, // Connected to Desserts
       },
       {
-        name: 'Süzme Mercimek Çorbası',
-        description: 'Tereyağlı ve naneli sos eşliğinde lokanta usulü mercimek çorbası.',
+        name: 'Red Lentil Soup',
+        description: 'Restaurant-style smooth lentil soup served with a drizzle of warm, sizzling chili-butter sauce.',
         imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554',
-        categoryId: corbalar.id, // Çorbalar kategorisine bağlandı
+        categoryId: soups.id, // Connected to Soups
       },
       {
-        name: 'Sezar Salata',
-        description: 'Izgara tavuk dilimleri, kruton ekmek ve özel soslu sezar salatası.',
+        name: 'Classic Caesar Salad',
+        description: 'Crisp romaine lettuce topped with tender grilled chicken breast strips, crunchy garlic croutons, and premium Caesar dressing.',
         imageUrl: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9',
-        categoryId: salatalar.id, // Salatalar kategorisine bağlandı
+        categoryId: salads.id, // Connected to Salads
       },
     ],
   });
 
-  console.log('🚀 Tüm kategoriler ve tarifler (items) veritabanına başarıyla yüklendi!');
+  console.log('🚀 All English categories and recipe items successfully migrated to the database!');
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Seed işlemi sırasında hata oluştu:', e);
+    console.error('❌ An error occurred during the seed process:', e);
     process.exit(1);
   })
   .finally(async () => {
-    // İşlem bitince veritabanı bağlantısını güvenli bir şekilde kapatıyoruz
+    // Gracefully disconnect Prisma client when finished
     await prisma.$disconnect();
   });
