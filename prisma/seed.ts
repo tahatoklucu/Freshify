@@ -30,13 +30,73 @@ async function main() {
   const soups = await prisma.category.create({ data: { name: 'Soups', slug: 'soups', description: 'Heartwarming comfort foods.', imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554' } });
   const salads = await prisma.category.create({ data: { name: 'Salads', slug: 'salads', description: 'Fresh and vibrant selections.', imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd' } });
 
-  // 2. YEMEKLERİ OLUŞTUR
+  // 2. YEMEKLERİ OLUŞTUR (ingredients ve instructions eklendi)
   const items = await Promise.all([
-    prisma.item.create({ data: { name: 'Baked Saucy Chicken', slug: 'baked-saucy-chicken', description: 'Perfectly roasted oven chicken.', imageUrl: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91', categoryId: mains.id, rating: 5, ratingCount: 2 } }),
-    prisma.item.create({ data: { name: 'Traditional Stuffed Eggplant', slug: 'stuffed-eggplant', description: 'Classic roasted eggplants.', imageUrl: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027', categoryId: mains.id, rating: 4, ratingCount: 1 } }),
-    prisma.item.create({ data: { name: 'Chocolate Lava Cake', slug: 'lava-cake', description: 'Rich warm liquid center.', imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c', categoryId: desserts.id, rating: 5, ratingCount: 1 } }),
-    prisma.item.create({ data: { name: 'Red Lentil Soup', slug: 'lentil-soup', description: 'Smooth, protein-packed soup.', imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554', categoryId: soups.id, rating: 5, ratingCount: 1 } }),
-    prisma.item.create({ data: { name: 'Caesar Salad', slug: 'caesar-salad', description: 'Crispy lettuce with garlic croutons.', imageUrl: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9', categoryId: salads.id, rating: 4, ratingCount: 1 } })
+    prisma.item.create({ 
+      data: { 
+        name: 'Baked Saucy Chicken', 
+        slug: 'baked-saucy-chicken', 
+        description: 'Perfectly roasted oven chicken.', 
+        imageUrl: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91', 
+        categoryId: mains.id, 
+        rating: 5, 
+        ratingCount: 2,
+        ingredients: ['1 Whole Chicken', '2 tbsp Olive oil', '1 tsp Paprika', 'Salt and Pepper'],
+        instructions: ['Preheat oven to 200°C.', 'Rub chicken with oil and spices.', 'Bake for 45 minutes until golden brown.']
+      } 
+    }),
+    prisma.item.create({ 
+      data: { 
+        name: 'Traditional Stuffed Eggplant', 
+        slug: 'stuffed-eggplant', 
+        description: 'Classic roasted eggplants.', 
+        imageUrl: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027', 
+        categoryId: mains.id, 
+        rating: 4, 
+        ratingCount: 1,
+        ingredients: ['2 Eggplants', '200g Ground meat', '1 Onion', '2 cloves Garlic'],
+        instructions: ['Slice eggplants and scoop out the middle.', 'Sauté meat with onions and garlic.', 'Fill eggplants and roast for 30 minutes.']
+      } 
+    }),
+    prisma.item.create({ 
+      data: { 
+        name: 'Chocolate Lava Cake', 
+        slug: 'lava-cake', 
+        description: 'Rich warm liquid center.', 
+        imageUrl: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c', 
+        categoryId: desserts.id, 
+        rating: 5, 
+        ratingCount: 1,
+        ingredients: ['100g Dark chocolate', '50g Butter', '2 Eggs', '2 tbsp Flour'],
+        instructions: ['Melt chocolate and butter together.', 'Whisk eggs and sugar, then combine.', 'Bake in ramekins for 10 minutes.']
+      } 
+    }),
+    prisma.item.create({ 
+      data: { 
+        name: 'Red Lentil Soup', 
+        slug: 'lentil-soup', 
+        description: 'Smooth, protein-packed soup.', 
+        imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554', 
+        categoryId: soups.id, 
+        rating: 5, 
+        ratingCount: 1,
+        ingredients: ['1 cup Red lentils', '1 Onion', '1 Carrot', '6 cups Vegetable broth'],
+        instructions: ['Sauté onion and carrot.', 'Add lentils and broth.', 'Simmer for 20 minutes and blend until smooth.']
+      } 
+    }),
+    prisma.item.create({ 
+      data: { 
+        name: 'Caesar Salad', 
+        slug: 'caesar-salad', 
+        description: 'Crispy lettuce with garlic croutons.', 
+        imageUrl: 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9', 
+        categoryId: salads.id, 
+        rating: 4, 
+        ratingCount: 1,
+        ingredients: ['1 head Romaine lettuce', '50g Croutons', 'Parmesan cheese', 'Caesar dressing'],
+        instructions: ['Chop lettuce.', 'Toss with dressing and croutons.', 'Top with grated parmesan.']
+      } 
+    })
   ]);
 
   // 3. YORUMLARI OLUŞTUR
@@ -51,7 +111,7 @@ async function main() {
     ],
   });
 
-  console.log('🚀 Seeding completed with more variety!');
+  console.log('🚀 Seeding completed with ingredients and instructions!');
 }
 
 main()

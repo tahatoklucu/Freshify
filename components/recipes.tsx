@@ -9,6 +9,8 @@ interface Recipe {
   description?: string | null;
   rating: number;
   ratingCount: number;
+  ingredients: string;
+  instructions: string;
 }
 
 interface RecipesProps {

@@ -28,6 +28,9 @@ model Item {
   rating        Float     @default(0)
   ratingCount   Int       @default(0)
 
+  ingredients   String[]
+  instructions  String[]
+
   categoryId    String
   category      Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
