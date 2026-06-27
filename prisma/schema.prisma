@@ -31,5 +31,15 @@ model Item {
   categoryId    String
   category      Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  reviews       String?
+  reviews       Review[]
+}
+
+model Review {
+  id            String    @id @default(cuid())
+  rating        Int
+  content       String
+  createdAt     DateTime  @default(now())
+
+  itemId        String
+  item          Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
