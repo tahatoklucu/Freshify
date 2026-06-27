@@ -4,8 +4,10 @@ import {
   LucideStar,
   LucideMessageSquare,
   LucideListOrdered,
+  LucideChevronLeft,
 } from "lucide-react";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 export default async function RecipeDetailPage({
   params,
@@ -22,9 +24,19 @@ export default async function RecipeDetailPage({
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-20">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-orange-600 transition-all group"
+        >
+          <LucideChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Back to Recipes
+        </Link>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-7 space-y-8">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-slate-100 shadow-sm">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-slate-100 shadow-sm border border-slate-100">
             <img
               src={selectedRecipe.imageUrl || ""}
               alt={selectedRecipe.name}
@@ -35,8 +47,7 @@ export default async function RecipeDetailPage({
           <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm space-y-10">
             <div>
               <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                <LucideUtensils className="w-5 h-5 text-orange-500" />{" "}
-                Ingredients
+                <LucideUtensils className="w-5 h-5 text-orange-500" /> Ingredients
               </h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-600 text-sm">
                 {selectedRecipe.ingredients?.map((item: string, i: number) => (
@@ -53,8 +64,7 @@ export default async function RecipeDetailPage({
 
             <div>
               <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                <LucideListOrdered className="w-5 h-5 text-orange-500" />{" "}
-                Instructions
+                <LucideListOrdered className="w-5 h-5 text-orange-500" /> Instructions
               </h3>
               <div className="space-y-6">
                 {selectedRecipe.instructions?.map((step: string, i: number) => (
@@ -78,12 +88,12 @@ export default async function RecipeDetailPage({
               <h1 className="text-3xl font-black text-slate-900 mb-4">
                 {selectedRecipe.name}
               </h1>
-              <p className="text-slate-500 leading-relaxed mb-6">
+              <p className="text-slate-500 leading-relaxed">
                 {selectedRecipe.description}
               </p>
             </div>
 
-            <section className="lg:col-span-12 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+            <section className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
               <div className="flex items-center gap-2 mb-8">
                 <LucideMessageSquare className="w-5 h-5 text-orange-500" />
                 <h2 className="text-xl font-black text-slate-800">
@@ -99,7 +109,7 @@ export default async function RecipeDetailPage({
                       className="flex gap-4 border-b border-slate-50 pb-6 last:border-0 last:pb-0"
                     >
                       <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">
-                        A
+                        U
                       </div>
 
                       <div className="flex-1">
@@ -108,9 +118,7 @@ export default async function RecipeDetailPage({
                             Anonymous
                           </h4>
                           <span className="text-[10px] text-slate-400 font-medium">
-                            {new Date(review.createdAt).toLocaleDateString(
-                              "tr-TR"
-                            )}
+                            {new Date(review.createdAt).toLocaleDateString("en-US")}
                           </span>
                         </div>
 
