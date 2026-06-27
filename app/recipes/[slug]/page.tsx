@@ -47,7 +47,8 @@ export default async function RecipeDetailPage({
           <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm space-y-10">
             <div>
               <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                <LucideUtensils className="w-5 h-5 text-orange-500" /> Ingredients
+                <LucideUtensils className="w-5 h-5 text-orange-500" />{" "}
+                Ingredients
               </h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-600 text-sm">
                 {selectedRecipe.ingredients?.map((item: string, i: number) => (
@@ -64,7 +65,8 @@ export default async function RecipeDetailPage({
 
             <div>
               <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                <LucideListOrdered className="w-5 h-5 text-orange-500" /> Instructions
+                <LucideListOrdered className="w-5 h-5 text-orange-500" />{" "}
+                Instructions
               </h3>
               <div className="space-y-6">
                 {selectedRecipe.instructions?.map((step: string, i: number) => (
@@ -118,7 +120,9 @@ export default async function RecipeDetailPage({
                             Anonymous
                           </h4>
                           <span className="text-[10px] text-slate-400 font-medium">
-                            {new Date(review.createdAt).toLocaleDateString("en-US")}
+                            {new Date(review.createdAt).toLocaleDateString(
+                              "en-US"
+                            )}
                           </span>
                         </div>
 
