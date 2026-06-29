@@ -5,7 +5,6 @@ import { authOptions } from "@/lib/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, CalendarDays, Mail, Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default async function ProfilePage({
   params,
