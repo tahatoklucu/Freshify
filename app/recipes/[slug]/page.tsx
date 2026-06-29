@@ -60,30 +60,42 @@ export default async function RecipeDetailPage({
             <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm space-y-10">
               <div>
                 <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                  <LucideUtensils className="w-5 h-5 text-orange-500" /> Ingredients
+                  <LucideUtensils className="w-5 h-5 text-orange-500" />{" "}
+                  Ingredients
                 </h3>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-600 text-sm">
-                  {selectedRecipe.ingredients?.map((item: string, i: number) => (
-                    <li key={i} className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                      <span className="w-1.5 h-1.5 rounded-full bg-orange-400" /> {item}
-                    </li>
-                  ))}
+                  {selectedRecipe.ingredients?.map(
+                    (item: string, i: number) => (
+                      <li
+                        key={i}
+                        className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />{" "}
+                        {item}
+                      </li>
+                    )
+                  )}
                 </ul>
               </div>
 
               <div>
                 <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
-                  <LucideListOrdered className="w-5 h-5 text-orange-500" /> Instructions
+                  <LucideListOrdered className="w-5 h-5 text-orange-500" />{" "}
+                  Instructions
                 </h3>
                 <div className="space-y-6">
-                  {selectedRecipe.instructions?.map((step: string, i: number) => (
-                    <div key={i} className="flex gap-4">
-                      <span className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center font-black text-sm">
-                        {i + 1}
-                      </span>
-                      <p className="text-slate-600 text-sm leading-relaxed mt-1">{step}</p>
-                    </div>
-                  ))}
+                  {selectedRecipe.instructions?.map(
+                    (step: string, i: number) => (
+                      <div key={i} className="flex gap-4">
+                        <span className="flex-shrink-0 w-8 h-8 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center font-black text-sm">
+                          {i + 1}
+                        </span>
+                        <p className="text-slate-600 text-sm leading-relaxed mt-1">
+                          {step}
+                        </p>
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             </div>
