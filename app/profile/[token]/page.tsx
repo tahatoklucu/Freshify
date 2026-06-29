@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, CalendarDays, Mail, Settings } from "lucide-react";
+import { BookOpen, CalendarDays, Mail } from "lucide-react";
 
 export default async function ProfilePage({
   params,
@@ -49,7 +49,7 @@ export default async function ProfilePage({
               <CalendarDays className="w-4 h-4" />
               <span className="text-sm">
                 Joined{" "}
-                {user.createdAt.toLocaleDateString("tr-TR", {
+                {user.createdAt.toLocaleDateString("en-US", {
                   month: "long",
                   year: "numeric",
                 })}
@@ -88,8 +88,8 @@ export default async function ProfilePage({
             <div className="col-span-full py-16 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
               <p className="text-slate-400 font-medium">
                 {isOwner
-                  ? "Henüz bir tarif eklemedin."
-                  : "Bu kullanıcı henüz tarif paylaşmamış."}
+                  ? "You haven't added any recipes yet."
+                  : "This user hasn't shared any recipes yet."}
               </p>
             </div>
           )}
