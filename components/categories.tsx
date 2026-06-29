@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface Category {
@@ -30,11 +31,14 @@ export default function Categories({ categories }: { categories: Category[] }) {
             >
               <div className="w-20 h-20 rounded-2xl overflow-hidden bg-white mb-5 shadow-sm border border-slate-100 relative flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
                 {category.imageUrl ? (
-                  <img 
-                    src={category.imageUrl} 
-                    alt={category.name} 
-                    className="w-full h-full object-cover" 
-                  />
+                  <Image
+                  src={category.imageUrl} 
+                  alt={category.name} 
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                  priority={true}
+                />
                 ) : (
                   <span className="text-2xl font-black text-slate-300">
                     {category.name.charAt(0)}

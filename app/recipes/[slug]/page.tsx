@@ -7,6 +7,7 @@ import {
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReviewsSection from "@/components/reviews";
+import Image from "next/image";
 
 export default async function RecipeDetailPage({
   params,
@@ -36,10 +37,13 @@ export default async function RecipeDetailPage({
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-7 space-y-8">
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-slate-100 shadow-sm border border-slate-100">
-            <img
+            <Image
               src={selectedRecipe.imageUrl || ""}
               alt={selectedRecipe.name}
               className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              priority={true}
             />
           </div>
 
