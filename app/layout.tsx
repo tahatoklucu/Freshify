@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { cn } from "@/lib/utils";
+import { Suspense } from "react";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("h-full", "font-sans", geist.variable)}>
       <body className={`${jakarta.className} flex flex-col min-h-screen bg-slate-50 text-slate-900 antialiased`}>
-        <Navbar />
+        <Suspense>
+          <Navbar />
+        </Suspense>
         <main className="flex-grow">{children}</main>
         <Footer />
       </body>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LucideSearch, LucideUser, LucideChefHat } from "lucide-react";
 import AuthDialog from "@/components/authDialog";
+import { SearchBar } from "./search-bar";
 
 export default function Navbar() {
   return (
@@ -21,14 +22,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex-[2] flex justify-center">
-          <div className="relative hidden sm:flex items-center rounded-full border border-slate-200 bg-slate-50 px-4 py-2 w-80 focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-100 transition-all">
-            <LucideSearch className="w-4 h-4 text-slate-400 mr-2" />
-            <input
-              type="text"
-              placeholder="Search recipes..."
-              className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400 text-slate-700"
-            />
-          </div>
+          <SearchBar />
         </div>
 
         <div className="flex-1 flex items-center justify-end">
