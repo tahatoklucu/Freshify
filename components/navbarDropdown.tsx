@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, User, Settings, BookOpen } from "lucide-react";
+import { LogOut, User, Settings, PlusCircle } from "lucide-react";
 import { signOut } from "next-auth/react";
 import {
   DropdownMenu,
@@ -20,7 +20,9 @@ interface UserProps {
 }
 
 export default function NavbarDropdown({ user }: { user: UserProps }) {
-  const profileHref = user?.profileToken ? `/profile/${user.profileToken}` : "/profile";
+  const profileHref = user?.profileToken
+    ? `/profile/${user.profileToken}`
+    : "/profile";
 
   return (
     <DropdownMenu>
@@ -33,28 +35,34 @@ export default function NavbarDropdown({ user }: { user: UserProps }) {
           <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        
-        <DropdownMenuItem asChild>
-          <Link href={profileHref} className="cursor-pointer">
+      <DropdownMenuContent className="w-56 p-2" align="end">
+        <DropdownMenuLabel className="px-2 py-2">My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator className="my-1.5" />
+
+        <DropdownMenuItem asChild className="cursor-pointer py-2.5 px-2 mb-0.5">
+          <Link href={profileHref}>
             <User className="mr-2 h-4 w-4" /> Profile
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
-          <Link href="/recipes" className="cursor-pointer">
-            <BookOpen className="mr-2 h-4 w-4" /> My Recipes
+        <DropdownMenuItem asChild className="cursor-pointer py-2.5 px-2 mb-0.5">
+          <Link href="/recipes/new" className="text-orange-600 font-medium">
+            <PlusCircle className="mr-2 h-4 w-4" /> Share Recipe
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/settings" className="cursor-pointer">
+
+        <DropdownMenuItem asChild className="cursor-pointer py-2.5 px-2">
+          <Link href="/settings">
             <Settings className="mr-2 h-4 w-4" /> Settings
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()} className="text-red-600 focus:text-red-600 cursor-pointer">
+
+        <DropdownMenuSeparator className="my-1.5" />
+
+        <DropdownMenuItem
+          onClick={() => signOut()}
+          className="text-red-600 focus:text-red-600 cursor-pointer py-2.5 px-2"
+        >
           <LogOut className="mr-2 h-4 w-4" /> Log Out
         </DropdownMenuItem>
       </DropdownMenuContent>
