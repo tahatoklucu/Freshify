@@ -127,3 +127,13 @@
     @apply font-sans;
     }
 }
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', sans-serif;
+  }
+
+  html, body {
+    font-family: var(--font-inter) !important;
+  }
+}
