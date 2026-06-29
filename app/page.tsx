@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import Categories from "@/components/categories";
 import Recipes from "@/components/recipes";
+import { Hero } from "@/components/hero";
 
 export default async function Home({
   searchParams,
@@ -23,6 +24,7 @@ export default async function Home({
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-12">
+      <Hero />
       {allCategories.length > 0 && <Categories categories={allCategories} />}
 
       {items.length > 0 ? (
