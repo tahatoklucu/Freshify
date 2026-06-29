@@ -15,6 +15,22 @@ export const authOptions: NextAuthOptions = {
     async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+
+        let dbUser = await db.user.findUnique({
+          where: { id: user.id },
+          select: { profileToken: true },
+        });
+
+        if (dbUser && !dbUser.profileToken) {
+          const newToken = crypto.randomUUID();
+          await db.user.update({
+            where: { id: user.id },
+            data: { profileToken: newToken },
+          });
+          dbUser.profileToken = newToken;
+        }
+
+        session.user.profileToken = dbUser?.profileToken ?? undefined;
       }
       return session;
     },

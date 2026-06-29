@@ -1,11 +1,10 @@
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
@@ -16,50 +15,55 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  profileToken  String?   @unique @default(cuid())
 
-  accounts      Account[]
-  sessions      Session[]
+  items    Item[]
+  accounts Account[]
+  sessions Session[]
 
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Category {
-  id            String    @id @default(cuid())
-  name          String    @unique
-  slug          String    @unique
-  description   String?
-  imageUrl      String?
-  items         Item[]
-  createdAt     DateTime  @default(now())
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  imageUrl    String?
+  items       Item[]
+  createdAt   DateTime @default(now())
 }
 
 model Item {
-  id            String    @id @default(cuid())
-  name          String
-  slug          String    @unique
-  imageUrl      String?
-  description   String?
-  rating        Float     @default(0)
-  ratingCount   Int       @default(0)
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  imageUrl    String?
+  description String?
+  rating      Float   @default(0)
+  ratingCount Int     @default(0)
 
-  ingredients   String[]
-  instructions  String[]
+  ingredients  String[]
+  instructions String[]
 
-  categoryId    String
-  category      Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  reviews       Review[]
+  reviews Review[]
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Review {
-  id            String    @id @default(cuid())
-  rating        Int
-  content       String
-  createdAt     DateTime  @default(now())
+  id        String   @id @default(cuid())
+  rating    Int
+  content   String
+  createdAt DateTime @default(now())
 
-  itemId        String
-  item          Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId String
+  item   Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -89,8 +93,8 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

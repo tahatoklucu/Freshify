@@ -13,7 +13,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function NavbarDropdown({ user }: { user: any }) {
+interface UserProps {
+  name?: string | null;
+  image?: string | null;
+  profileToken?: string | null;
+}
+
+export default function NavbarDropdown({ user }: { user: UserProps }) {
+  const profileHref = user?.profileToken ? `/profile/${user.profileToken}` : "/profile";
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-2 outline-none transition-all duration-200 hover:bg-slate-100 rounded-full px-3 py-1 -mx-3 cursor-pointer">
@@ -28,11 +36,13 @@ export default function NavbarDropdown({ user }: { user: any }) {
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
+        
         <DropdownMenuItem asChild>
-          <Link href="/profile" className="cursor-pointer">
+          <Link href={profileHref} className="cursor-pointer">
             <User className="mr-2 h-4 w-4" /> Profile
           </Link>
         </DropdownMenuItem>
+
         <DropdownMenuItem asChild>
           <Link href="/recipes" className="cursor-pointer">
             <BookOpen className="mr-2 h-4 w-4" /> My Recipes
