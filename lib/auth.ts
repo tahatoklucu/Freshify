@@ -3,9 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "@/lib/db";
 
-console.log("DB nesnesi yüklendi mi:", !!db); 
-console.log("DB nesnesinin tipi:", typeof db);
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
