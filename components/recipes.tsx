@@ -100,12 +100,12 @@ export default function Recipes({
               </div>
 
               <div className="p-4 md:p-6 flex flex-col flex-grow">
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-2 mb-3">
                   <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <LucideStar
                         key={i}
-                        className={`w-3.5 h-3.5 ${
+                        className={`w-3 h-3 ${
                           i < Math.round(averageRating)
                             ? "fill-orange-400 text-orange-400"
                             : "text-slate-200"
@@ -114,17 +114,18 @@ export default function Recipes({
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-black text-slate-800">
+                  <div className="flex items-baseline gap-1.5 leading-none">
+                    <span className="font-extrabold text-slate-900 text-xs max-sm:hidden">
                       {averageRating.toFixed(1)}
                     </span>
-                    <span className="text-slate-300 font-light">|</span>
-                    <span className="text-xs font-medium text-slate-400">
-                      {reviewCount} reviews
+                    <span className="text-[10px] font-medium text-slate-400 tracking-wide">
+                      ({reviewCount}
+                      <span className="hidden md:inline ml-1">Reviews</span>)
                     </span>
                   </div>
                 </div>
-                <h3 className="font-bold text-slate-900 text-xs md:text-lg leading-tight group-hover:text-orange-600 transition-colors">
+
+                <h3 className="font-bold text-slate-900 text-sm md:text-lg leading-snug group-hover:text-orange-600 transition-colors mb-4 line-clamp-2">
                   {recipe.name}
                 </h3>
 
