@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="bg-slate-100 p-6 rounded-full mb-6">
         <LucideChefHat className="w-12 h-12 text-slate-400" />
       </div>
-      <h2 className="text-3xl font-black text-slate-900">Oops! Recipe not found</h2>
+      <h2 className="text-3xl font-black text-slate-900">Oops! Page not found</h2>
       <p className="text-slate-500 mt-2 mb-8 max-w-sm">
         It seems the recipe you are looking for has been moved or doesn't exist in our kitchen.
       </p>
