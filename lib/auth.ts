@@ -22,7 +22,6 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
-
         const user = await db.user.findUnique({
           where: { email: credentials.email as string },
         });
@@ -30,16 +29,13 @@ export const authOptions: NextAuthOptions = {
         if (!user || !user.password) {
           return null;
         }
-
         const isPasswordValid = await bcrypt.compare(
           credentials.password as string,
           user.password
         );
-
         if (!isPasswordValid) {
           return null;
         }
-
         return user;
       },
     }),

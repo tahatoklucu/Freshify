@@ -17,7 +17,12 @@ export default async function RecipeDetailPage({
   const { slug } = await params;
   const selectedRecipe = await db.item.findUnique({
     where: { slug: slug },
-    include: { reviews: { orderBy: { createdAt: "desc" } } },
+    include: {
+      reviews: {
+        include: { user: true },
+        orderBy: { createdAt: "desc" },
+      },
+    },
   });
 
   if (!selectedRecipe) return notFound();
@@ -102,7 +107,11 @@ export default async function RecipeDetailPage({
           </div>
           <div className="lg:col-span-5">
             <div className="sticky top-24">
-              <ReviewsSection initialReviews={selectedRecipe.reviews} />
+              <ReviewsSection
+                itemId={selectedRecipe.id}
+                initialReviews={selectedRecipe.reviews}
+                slug={slug}
+              />
             </div>
           </div>
         </div>
