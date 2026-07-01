@@ -105,8 +105,9 @@ export default async function ProfilePage({
         <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-8">
           <LucideMessageSquare className="w-6 h-6 text-orange-600" />
           {isOwner
-            ? "My Reviews"
-            : `${user.name?.split(" ")[0]}'s Recent Reviews`}
+            ? `My Reviews`
+            : `${user.name?.split(" ")[0]}'s Recent Reviews`}{" "}
+          <span className="text-orange-600">({user.review.length})</span>
         </h2>
 
         {(user.review || []).length > 0 ? (

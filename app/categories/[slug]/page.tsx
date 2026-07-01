@@ -28,7 +28,6 @@ export default async function CategoryDetailPage({ params }: PageProps) {
         recipes={selectedCategory.items} 
         categoryName={selectedCategory.name}
         categoryDescription={selectedCategory.description || "Exquisite flavors and step-by-step practical recipes."}
-
       />
     </div>
   );
