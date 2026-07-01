@@ -4,7 +4,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, CalendarDays, Mail } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  LucideMessageSquare,
+  LucideStar,
+  Mail,
+} from "lucide-react";
+import Link from "next/link";
 
 export default async function ProfilePage({
   params,
@@ -14,9 +21,12 @@ export default async function ProfilePage({
   const { token } = await params;
   const session = await getServerSession(authOptions);
 
-  const user = await db.user.findUnique({
+  const user: any = await db.user.findUnique({
     where: { profileToken: token },
-    include: { items: true },
+    include: {
+      items: { include: { reviews: true } },
+      review: { include: { item: true }, orderBy: { createdAt: "desc" } },
+    },
   });
 
   if (!user) return notFound();
@@ -32,12 +42,10 @@ export default async function ProfilePage({
             {user.name?.[0]}
           </AvatarFallback>
         </Avatar>
-
         <div className="flex-1 text-center md:text-left">
-          <div className="flex items-center justify-center md:justify-start gap-4 mb-2">
-            <h1 className="text-4xl font-black text-slate-900">{user.name}</h1>
-          </div>
-
+          <h1 className="text-4xl font-black text-slate-900 mb-2">
+            {user.name}
+          </h1>
           <div className="flex flex-wrap justify-center md:justify-start gap-4 text-slate-500 mt-4">
             {isOwner && (
               <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
@@ -49,7 +57,7 @@ export default async function ProfilePage({
               <CalendarDays className="w-4 h-4" />
               <span className="text-sm">
                 Joined{" "}
-                {user.createdAt.toLocaleDateString("en-US", {
+                {new Date(user.createdAt).toLocaleDateString("en-US", {
                   month: "long",
                   year: "numeric",
                 })}
@@ -59,20 +67,17 @@ export default async function ProfilePage({
         </div>
       </div>
 
-      <div>
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-orange-600" />
-            {isOwner ? "My Recipes" : `${user.name?.split(" ")[0]}'s Recipes`}
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {user.items.length > 0 ? (
-            user.items.map((item) => (
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-8">
+          <BookOpen className="w-6 h-6 text-orange-600" />
+          {isOwner ? "My Recipes" : `${user.name?.split(" ")[0]}'s Recipes`}
+        </h2>
+        {(user.items || []).length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {(user.items || []).map((item: any) => (
               <Card
                 key={item.id}
-                className="group hover:shadow-lg transition-all border-slate-100 overflow-hidden"
+                className="group hover:shadow-lg transition-all border-slate-100"
               >
                 <CardContent className="p-5">
                   <h3 className="font-bold text-lg mb-2 group-hover:text-orange-600 transition-colors">
@@ -83,18 +88,73 @@ export default async function ProfilePage({
                   </p>
                 </CardContent>
               </Card>
-            ))
-          ) : (
-            <div className="col-span-full py-16 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-              <p className="text-slate-400 font-medium">
-                {isOwner
-                  ? "You haven't added any recipes yet."
-                  : "This user hasn't shared any recipes yet."}
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+            <p className="text-slate-400 font-medium">
+              {isOwner
+                ? "You haven't added any recipes yet."
+                : "This user hasn't shared any recipes yet."}
+            </p>
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-8">
+          <LucideMessageSquare className="w-6 h-6 text-orange-600" />
+          {isOwner
+            ? "My Reviews"
+            : `${user.name?.split(" ")[0]}'s Recent Reviews`}
+        </h2>
+
+        {(user.review || []).length > 0 ? (
+          <div className="space-y-4">
+            {(user.review || []).map((review: any) => (
+              <Card
+                key={review.id}
+                className="border-slate-100 shadow-none hover:bg-slate-50 transition-colors"
+              >
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <Link
+                      href={`/recipes/${review.item?.slug || "#"}`}
+                      className="font-bold text-orange-600 hover:underline"
+                    >
+                      {review.item?.name || "Deleted Recipe"}
+                    </Link>
+                    <span className="text-xs text-slate-400">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <p className="text-slate-600 italic">"{review.content}"</p>
+                  <div className="flex gap-0.5 mt-3">
+                    {[...Array(5)].map((_, i) => (
+                      <LucideStar
+                        key={i}
+                        className={`w-3.5 h-3.5 ${
+                          i < (review.rating || 0)
+                            ? "fill-orange-400 text-orange-400"
+                            : "text-slate-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+            <p className="text-slate-400 font-medium">
+              {isOwner
+                ? "You haven't written any reviews yet."
+                : "This user hasn't written any reviews yet."}
+            </p>
+          </div>
+        )}
+      </section>
     </div>
   );
 }
