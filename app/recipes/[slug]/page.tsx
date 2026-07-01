@@ -18,14 +18,23 @@ export default async function RecipeDetailPage({
   const selectedRecipe = await db.item.findUnique({
     where: { slug: slug },
     include: {
-      reviews: {
-        include: { user: true },
-        orderBy: { createdAt: "desc" },
-      },
+      reviews: { include: { user: true } },
     },
   });
 
-  if (!selectedRecipe) return notFound();
+  if (!selectedRecipe) {
+    notFound();
+  }
+
+  const totalRating = selectedRecipe?.reviews.reduce(
+    (acc, rev) => acc + rev.rating,
+    0
+  );
+  const averageRating =
+    selectedRecipe.reviews.length > 0
+      ? totalRating / selectedRecipe.reviews.length
+      : 0;
+  const reviewCount = selectedRecipe.reviews.length;
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-20">
@@ -44,6 +53,9 @@ export default async function RecipeDetailPage({
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
             {selectedRecipe.name}
           </h1>
+          <p className="text-orange-600 font-bold">
+            ⭐ {averageRating.toFixed(1)} / 5.0 ({reviewCount} reviews)
+          </p>
           <p className="text-slate-500 text-lg max-w-3xl leading-relaxed">
             {selectedRecipe.description}
           </p>

@@ -20,6 +20,11 @@ export default async function Home({
         category ? { category: { slug: category } } : {},
       ],
     },
+    include: {
+      reviews: {
+        select: { rating: true }
+      }
+    }
   });
 
   return (

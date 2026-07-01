@@ -46,15 +46,16 @@ export async function deleteReview(reviewId: string, slug: string) {
       const deleted = await db.review.deleteMany({
         where: {
           id: reviewId,
-          user: { email: session.user.email } // Güvenlik kontrolü
+          user: { email: session.user.email }
         }
       });
   
       if (deleted.count === 0) return { success: false, message: "Not authorized or review not found." };
       
-      revalidatePath(`/recipe/[slug]`, "page");
+      revalidatePath(`/recipes/${slug}`);
       return { success: true };
     } catch (error) {
+      console.error(error);
       return { success: false, message: "Error deleting review." };
     }
-  }
+}

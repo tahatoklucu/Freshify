@@ -10,6 +10,7 @@ import {
   LucideTrash2,
 } from "lucide-react";
 import { addReview, deleteReview } from "@/app/actions/review";
+import Link from "next/link";
 
 export default function ReviewsSection({
   itemId,
@@ -101,9 +102,12 @@ export default function ReviewsSection({
             key={review.id}
             className="flex gap-4 border-b border-slate-50 pb-6 group"
           >
-            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-[10px]">
+            <Link
+              href={`/profile/${review.user?.profileToken}`}
+              className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-[10px] hover:ring-2 hover:ring-orange-500 transition-all"
+            >
               {review.user?.name?.charAt(0) || "A"}
-            </div>
+            </Link>
             <div className="flex-grow">
               <div className="flex justify-between items-start">
                 <div>
@@ -129,7 +133,7 @@ export default function ReviewsSection({
                   <button
                     onClick={() => handleDeleteReview(review.id)}
                     disabled={isPending}
-                    className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="text-red-400 hover:text-red-600 transition-colors p-1 cursor-pointer"
                   >
                     <LucideTrash2 className="w-4 h-4" />
                   </button>
