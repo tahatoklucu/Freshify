@@ -52,7 +52,12 @@ export default function ReviewsSection({
           </span>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
-              <button key={star} type="button" className="cursor-pointer" onClick={() => setRating(star)}>
+              <button
+                key={star}
+                type="button"
+                className="cursor-pointer"
+                onClick={() => setRating(star)}
+              >
                 <LucideStar
                   className={`w-5 h-5 ${
                     star <= rating
@@ -101,9 +106,24 @@ export default function ReviewsSection({
             </div>
             <div className="flex-grow">
               <div className="flex justify-between items-start">
-                <h4 className="font-bold text-slate-800 text-xs">
-                  {review.user?.name || "Anonymous"}
-                </h4>
+                <div>
+                  <h4 className="font-bold text-slate-800 text-xs">
+                    {review.user?.name || "Anonymous"}
+                  </h4>
+
+                  <div className="flex gap-0.5 mt-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <LucideStar
+                        key={star}
+                        className={`w-3 h-3 ${
+                          star <= review.rating
+                            ? "fill-orange-400 text-orange-400"
+                            : "text-slate-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
 
                 {session?.user?.email === review.user?.email && (
                   <button
@@ -115,7 +135,7 @@ export default function ReviewsSection({
                   </button>
                 )}
               </div>
-              <p className="text-sm text-slate-600 mt-1">{review.content}</p>
+              <p className="text-sm text-slate-600 mt-2">{review.content}</p>
             </div>
           </div>
         ))}
