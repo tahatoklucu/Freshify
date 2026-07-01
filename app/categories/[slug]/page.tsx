@@ -11,7 +11,13 @@ export default async function CategoryDetailPage({ params }: PageProps) {
   
   const selectedCategory = await db.category.findUnique({
     where: { slug: slug },
-    include: { items: true }
+    include: {
+      items: {
+        include: {
+          reviews: true
+        }
+      }
+    }
   });
 
   if (!selectedCategory) notFound();
@@ -22,6 +28,7 @@ export default async function CategoryDetailPage({ params }: PageProps) {
         recipes={selectedCategory.items} 
         categoryName={selectedCategory.name}
         categoryDescription={selectedCategory.description || "Exquisite flavors and step-by-step practical recipes."}
+
       />
     </div>
   );
