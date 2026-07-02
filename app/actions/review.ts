@@ -67,3 +67,30 @@ export async function deleteReview(reviewId: string, slug: string) {
     return { success: false, message: "Error deleting review." };
   }
 }
+
+export async function updateReview(reviewId: string, content: string, rating: number, slug: string) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.email) {
+    return { success: false, message: "Unauthorized" };
+  }
+
+  try {
+    const updatedReview = await db.review.update({
+      where: {
+        id: reviewId,
+        user: { email: session.user.email },
+      },
+      data: {
+        content,
+        rating,
+      },
+    });
+
+    revalidatePath(`/recipes/${slug}`);
+    return { success: true, data: updatedReview };
+  } catch (error) {
+    console.error("Review update error:", error);
+    return { success: false, message: "Failed to update review" };
+  }
+}
