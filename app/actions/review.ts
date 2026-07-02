@@ -87,6 +87,10 @@ export async function updateReview(reviewId: string, content: string, rating: nu
       },
     });
 
+    if (content === "") {
+      return { success: false, message: "This field cannot be left blank!"}
+    }
+
     revalidatePath(`/recipes/${slug}`);
     return { success: true, data: updatedReview };
   } catch (error) {

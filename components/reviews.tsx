@@ -73,7 +73,7 @@ export default function ReviewsSection({
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button key={star} type="button" onClick={() => setRating(star)}>
-                <LucideStar className={`w-5 h-5 ${star <= rating ? "fill-orange-400 text-orange-400" : "text-slate-300"}`} />
+                <LucideStar className={`w-5 h-5 cursor-pointer ${star <= rating ? "fill-orange-400 text-orange-400" : "text-slate-300"}`} />
               </button>
             ))}
           </div>
@@ -84,7 +84,7 @@ export default function ReviewsSection({
             rows={2}
             placeholder="Share your thoughts..."
           />
-          <button type="submit" disabled={isPending} className="absolute right-2 bottom-6 p-2 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors">
+          <button type="submit" disabled={isPending} className="absolute right-2 bottom-6 p-2 bg-orange-600 text-white rounded-xl hover:bg-orange-700 transition-colors cursor-pointer">
             {isPending ? <LucideLoader2 className="w-4 h-4 animate-spin" /> : <LucideSend className="w-4 h-4" />}
           </button>
         </form>
@@ -104,18 +104,18 @@ export default function ReviewsSection({
             <div className="flex-grow">
               {editingId === review.id ? (
                 <div className="space-y-3 bg-slate-50 p-4 rounded-2xl">
-                  <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} className="w-full p-2 rounded-lg border border-slate-200 text-sm" />
+                  <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} className="w-full p-2 rounded-lg border border-slate-200 text-sm resize-none" />
                   <div className="flex justify-between items-center">
                     <div className="flex gap-1">
                       {[1,2,3,4,5].map(s => (
                         <button key={s} type="button" onClick={() => setEditRating(s)}>
-                          <LucideStar className={`w-4 h-4 ${s <= editRating ? "fill-orange-400 text-orange-400" : "text-slate-300"}`} />
+                          <LucideStar className={`w-4 h-4 cursor-pointer ${s <= editRating ? "fill-orange-400 text-orange-400" : "text-slate-300"}`} />
                         </button>
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <button onClick={() => handleUpdateReview(review.id)} className="text-green-600 bg-white p-1 rounded-lg border"><LucideCheck size={16}/></button>
-                      <button onClick={() => setEditingId(null)} className="text-slate-400 bg-white p-1 rounded-lg border"><LucideX size={16}/></button>
+                      <button onClick={() => handleUpdateReview(review.id)} className="text-green-600 bg-white p-1 rounded-lg border cursor-pointer"><LucideCheck size={16}/></button>
+                      <button onClick={() => setEditingId(null)} className="text-slate-400 bg-white p-1 rounded-lg border cursor-pointer"><LucideX size={16}/></button>
                     </div>
                   </div>
                 </div>
