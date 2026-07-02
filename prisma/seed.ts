@@ -3,13 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // 1. Temizlik: Hata almamak için ilişkileri tersten siliyoruz
   await prisma.review.deleteMany();
   await prisma.item.deleteMany();
   await prisma.category.deleteMany();
   await prisma.user.deleteMany();
 
-  // 2. Kullanıcı Oluşturma
   const user = await prisma.user.create({
     data: {
       email: "chef@whisk.com",
@@ -44,11 +42,10 @@ async function main() {
         ratingCount: 100,
         ingredients: ["Ingredient 1", "Ingredient 2", "Secret Component"],
         instructions: ["Step 1: Preparation", "Step 2: Cooking", "Step 3: Serving"],
-        userId: user.id, // Kullanıcıyı atadık
+        userId: user.id,
       },
     });
 
-    // 5. Her ürüne 2 adet Review (Şemana göre userId zorunlu)
     await prisma.review.createMany({
       data: [
         { content: "Excellent recipe, loved the flavors!", rating: 5, itemId: createdItem.id, userId: user.id },

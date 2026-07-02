@@ -3,15 +3,14 @@ import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   BookOpen,
   CalendarDays,
   LucideMessageSquare,
-  LucideStar,
   Mail,
 } from "lucide-react";
-import Link from "next/link";
+import RecipeList from "@/components/recipeList";
+import ReviewList from "@/components/reviewList";
 
 export default async function ProfilePage({
   params,
@@ -72,24 +71,9 @@ export default async function ProfilePage({
           <BookOpen className="w-6 h-6 text-orange-600" />
           {isOwner ? "My Recipes" : `${user.name?.split(" ")[0]}'s Recipes`}
         </h2>
+
         {(user.items || []).length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(user.items || []).map((item: any) => (
-              <Card
-                key={item.id}
-                className="group hover:shadow-lg transition-all border-slate-100"
-              >
-                <CardContent className="p-5">
-                  <h3 className="font-bold text-lg mb-2 group-hover:text-orange-600 transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-slate-500 line-clamp-2">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <RecipeList items={user.items} />
         ) : (
           <div className="py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
             <p className="text-slate-400 font-medium">
@@ -111,41 +95,7 @@ export default async function ProfilePage({
         </h2>
 
         {(user.review || []).length > 0 ? (
-          <div className="space-y-4">
-            {(user.review || []).map((review: any) => (
-              <Card
-                key={review.id}
-                className="border-slate-100 shadow-none hover:bg-slate-50 transition-colors"
-              >
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <Link
-                      href={`/recipes/${review.item?.slug || "#"}`}
-                      className="font-bold text-orange-600 hover:underline"
-                    >
-                      {review.item?.name || "Deleted Recipe"}
-                    </Link>
-                    <span className="text-xs text-slate-400">
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  <p className="text-slate-600 italic">"{review.content}"</p>
-                  <div className="flex gap-0.5 mt-3">
-                    {[...Array(5)].map((_, i) => (
-                      <LucideStar
-                        key={i}
-                        className={`w-3.5 h-3.5 ${
-                          i < (review.rating || 0)
-                            ? "fill-orange-400 text-orange-400"
-                            : "text-slate-200"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <ReviewList reviews={user.review} />
         ) : (
           <div className="py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
             <p className="text-slate-400 font-medium">
