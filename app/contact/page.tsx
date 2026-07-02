@@ -29,7 +29,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-slate-900 p-12 rounded-[3rem] text-white">
+          <div className="bg-slate-900 p-12 rounded-sm text-white">
             <h3 className="text-2xl font-bold mb-8">Send a Message</h3>
             <form className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
@@ -42,7 +42,7 @@ export default function ContactPage() {
                 <option>Partnership</option>
                 <option>Bug Report</option>
               </select>
-              <textarea placeholder="Tell us how we can help..." rows={5} className="w-full p-4 rounded-2xl bg-slate-800 border-none focus:ring-2 focus:ring-orange-500" />
+              <textarea placeholder="Tell us how we can help..." rows={5} className="w-full p-4 rounded-2xl bg-slate-800 border-none focus:ring-2 focus:ring-orange-500 resize-none" />
               <button className="w-full bg-orange-600 text-white font-black py-5 rounded-2xl hover:bg-orange-700 transition-all text-sm shadow-xl cursor-pointer">
                 Send Message
               </button>
