@@ -133,10 +133,10 @@ export default function ReviewsSection({
 
                   {session?.user?.email === review.user?.email && (
                     <div className="flex gap-2">
-                      <button onClick={() => { setEditingId(review.id); setEditContent(review.content); setEditRating(review.rating); }} className="text-slate-400 hover:text-orange-600">
+                      <button onClick={() => { setEditingId(review.id); setEditContent(review.content); setEditRating(review.rating); }} className="text-slate-400 hover:text-orange-600 cursor-pointer">
                         <LucideEdit2 size={16} />
                       </button>
-                      <button onClick={() => handleDeleteReview(review.id)} className="text-red-400 hover:text-red-600">
+                      <button onClick={() => handleDeleteReview(review.id)} className="text-red-400 hover:text-red-600 cursor-pointer">
                         <LucideTrash2 size={16} />
                       </button>
                     </div>
