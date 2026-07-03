@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import ReviewsSection from "@/components/reviews";
 import Image from "next/image";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function RecipeDetailPage({
   params,
@@ -59,8 +59,17 @@ export default async function RecipeDetailPage({
             href={`/profile/${selectedRecipe.user?.profileToken}`}
             className="flex items-center gap-2 mb-4 group"
           >
-            <Avatar>
-              <AvatarImage src={selectedRecipe.user?.image || ""} />
+            <Avatar className="w-10 h-10 border border-slate-200 shadow-sm">
+              {selectedRecipe.user?.image ? (
+                <AvatarImage
+                  src={selectedRecipe.user.image}
+                  className="object-cover"
+                />
+              ) : (
+                <AvatarFallback className="bg-orange-100 text-orange-600 font-bold">
+                  {selectedRecipe.user?.name?.charAt(0).toUpperCase() || "A"}
+                </AvatarFallback>
+              )}
             </Avatar>
             <p className="text-slate-600 font-medium">
               By{" "}
