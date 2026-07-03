@@ -7,6 +7,10 @@ export async function updateProfile(
   userId: string, 
   data: { name: string, image?: string | null } 
 ) {
+  if (!data.name || data.name.trim() === "") {
+    throw new Error("Name field is required and cannot be empty.");
+  }
+  
   await db.user.update({
     where: { id: userId },
     data: { 

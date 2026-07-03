@@ -32,23 +32,24 @@ export function EditProfileDialog({ user }: { user: any }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const newName = (formData.get("name") as string).trim();
+
+    if (!newName) {
+      alert("Name cannot be empty!");
+      return;
+  }
+
     setLoading(true);
-
-    const newName = new FormData(e.currentTarget).get("name") as string;
-    const imageToSave =
-      preview && preview.startsWith("data:image") ? preview : null;
-
-    await updateProfile(user.id, {
-      name: newName,
-      image: imageToSave,
-    });
+    
+    await updateProfile(user.id, { name: newName, image: preview ?? undefined });
     await update({ name: newName });
-
+    
     setLoading(false);
     setOpen(false);
-
     window.location.reload();
-  };
+};
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -94,6 +95,8 @@ export function EditProfileDialog({ user }: { user: any }) {
             defaultValue={user.name}
             placeholder="Full Name"
             className="h-11"
+            required
+            minLength={2}
           />
           <Button
             type="submit"
