@@ -1,14 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { handleRegister } from "@/app/actions/auth";
 
-export default function AuthDialog({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
+interface AuthDialogProps {
+  children?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export default function AuthDialog({
+  children,
+  open,
+  onOpenChange,
+}: AuthDialogProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isOpen = open !== undefined ? open : internalOpen;
+  const setIsOpen = onOpenChange || setInternalOpen;
+
   const [showSignup, setShowSignup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,8 +63,9 @@ export default function AuthDialog({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
+
       <DialogContent className="sm:max-w-[420px] p-8 bg-white border border-slate-100 rounded-2xl shadow-xl">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="text-center mb-8">
@@ -58,27 +73,51 @@ export default function AuthDialog({ children }: { children: React.ReactNode }) 
               {showSignup ? "Create Account" : "Whisk"}
             </h2>
             <p className="text-sm text-slate-500 mt-2">
-              {showSignup 
-                ? "Join our community of food lovers" 
+              {showSignup
+                ? "Join our community of food lovers"
                 : "Connect your account to start discovering."}
             </p>
           </div>
 
           {showSignup && (
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
-              <Input name="name" required className="h-11 rounded-lg bg-slate-50 border-slate-200 focus:border-orange-500 mt-1" type="text" placeholder="John Doe" />
+              <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                Full Name
+              </label>
+              <Input
+                name="name"
+                required
+                className="h-11 rounded-lg bg-slate-50 border-slate-200 focus:border-orange-500 mt-1"
+                type="text"
+                placeholder="John Doe"
+              />
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
-            <Input name="email" required className="h-11 rounded-lg bg-slate-50 border-slate-200 focus:border-orange-500 mt-1" type="email" placeholder="name@example.com" />
+            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+              Email Address
+            </label>
+            <Input
+              name="email"
+              required
+              className="h-11 rounded-lg bg-slate-50 border-slate-200 focus:border-orange-500 mt-1"
+              type="email"
+              placeholder="name@example.com"
+            />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
-            <Input name="password" required className="h-11 rounded-lg bg-slate-50 border-slate-200 focus:border-orange-500 mt-1" type="password" placeholder="••••••••" />
+            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+              Password
+            </label>
+            <Input
+              name="password"
+              required
+              className="h-11 rounded-lg bg-slate-50 border-slate-200 focus:border-orange-500 mt-1"
+              type="password"
+              placeholder="••••••••"
+            />
           </div>
 
           {error && (
@@ -87,19 +126,62 @@ export default function AuthDialog({ children }: { children: React.ReactNode }) 
             </p>
           )}
 
-          <Button disabled={loading} type="submit" className="w-full h-11 mt-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold cursor-pointer">
-            {loading ? "Processing..." : showSignup ? "Create Account" : "Sign In"}
+          <Button
+            disabled={loading}
+            type="submit"
+            className="w-full h-11 mt-2 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold cursor-pointer"
+          >
+            {loading
+              ? "Processing..."
+              : showSignup
+              ? "Create Account"
+              : "Sign In"}
           </Button>
         </form>
 
-        <OrSeparator />
-        <GoogleButton />
+        <div className="relative flex py-2 items-center">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="flex-shrink mx-4 text-gray-400 text-[10px] font-bold uppercase tracking-widest">
+            or
+          </span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <Button
+          variant="outline"
+          type="button"
+          className="w-full h-11 rounded-lg border-slate-200 transition-all flex items-center justify-center gap-3 cursor-pointer"
+          onClick={() => signIn("google", { redirectTo: "/" })}
+        >
+          <svg className="h-5 w-5" viewBox="0 0 24 24">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4"
+            />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853"
+            />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+              fill="#FBBC05"
+            />
+            <path
+              d="M12 6.58c1.62 0 3.06.55 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+              fill="#EA4543"
+            />
+          </svg>
+          Continue with Google
+        </Button>
 
         <p className="text-center text-sm text-slate-500 mt-8">
           {showSignup ? "Already have an account? " : "Don't have an account? "}
           <button
             type="button"
-            onClick={() => { setShowSignup(!showSignup); setError(null); }}
+            onClick={() => {
+              setShowSignup(!showSignup);
+              setError(null);
+            }}
             className="text-orange-600 font-bold hover:underline cursor-pointer"
           >
             {showSignup ? "Sign in" : "Sign up"}
@@ -107,34 +189,5 @@ export default function AuthDialog({ children }: { children: React.ReactNode }) 
         </p>
       </DialogContent>
     </Dialog>
-  );
-}
-
-function OrSeparator() {
-  return (
-    <div className="relative flex py-2 items-center">
-      <div className="flex-grow border-t border-gray-300"></div>
-      <span className="flex-shrink mx-4 text-gray-400 text-[10px] font-bold uppercase tracking-widest">or</span>
-      <div className="flex-grow border-t border-gray-300"></div>
-    </div>
-  );
-}
-
-function GoogleButton() {
-  return (
-    <Button
-      variant="outline"
-      type="button"
-      className="w-full h-11 rounded-lg border-slate-200 transition-all flex items-center justify-center gap-3 cursor-pointer"
-      onClick={() => signIn("google", { redirectTo: "/" })}
-    >
-      <svg className="h-5 w-5" viewBox="0 0 24 24">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-        <path d="M12 6.58c1.62 0 3.06.55 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4543" />
-      </svg>
-      Continue with Google
-    </Button>
   );
 }
