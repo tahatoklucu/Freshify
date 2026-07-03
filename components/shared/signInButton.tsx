@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AuthDialog from "@/components/authDialog";
+import AuthDialog from "@/components/shared/authDialog";
 
 export default function SignInButton() {
   const [isOpen, setIsOpen] = useState(false);
