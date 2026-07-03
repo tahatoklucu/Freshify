@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import RecipeList from "@/components/recipeList";
 import ReviewList from "@/components/reviewList";
+import { EditProfileDialog } from "@/components/editProfileDialog";
 
 export default async function ProfilePage({
   params,
@@ -35,12 +36,15 @@ export default async function ProfilePage({
   return (
     <div className="container mx-auto py-12 px-4 max-w-4xl">
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-16">
-        <Avatar className="w-32 h-32 border border-slate-200">
-          <AvatarImage src={user.image || ""} />
-          <AvatarFallback className="text-3xl bg-slate-100 text-slate-400 font-bold">
-            {user.name?.[0]}
-          </AvatarFallback>
-        </Avatar>
+        <div className="relative">
+          <Avatar className="w-32 h-32 border border-slate-200">
+            <AvatarImage src={user.image || ""} />
+            <AvatarFallback className="text-3xl bg-slate-100 text-slate-400 font-bold">
+              {user.name?.[0]}
+            </AvatarFallback>
+          </Avatar>
+          {isOwner && <EditProfileDialog user={user} />}
+        </div>
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-4xl font-black text-slate-900 mb-2">
             {user.name}
