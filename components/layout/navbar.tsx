@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LucideChefHat, User } from "lucide-react";
-import AuthDialog from "@/components/authDialog";
+import AuthDialog from "@/components/shared/authDialog";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import NavbarDropdown from "./navbarDropdown";

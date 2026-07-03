@@ -9,9 +9,9 @@ import {
   LucideMessageSquare,
   Mail,
 } from "lucide-react";
-import RecipeList from "@/components/recipeList";
-import ReviewList from "@/components/reviewList";
-import { EditProfileDialog } from "@/components/editProfileDialog";
+import RecipeList from "@/components/recipes/recipeList";
+import ReviewList from "@/components/reviews/reviewList";
+import { EditProfileDialog } from "@/components/forms/editProfileDialog";
 
 export default async function ProfilePage({
   params,

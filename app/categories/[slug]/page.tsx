@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import Recipes from "@/components/recipes";
+import Recipes from "@/components/recipes/recipes";
 import { notFound } from "next/navigation";
 
 interface PageProps {

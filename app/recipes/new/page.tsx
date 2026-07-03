@@ -1,8 +1,8 @@
 import { db } from "@/lib/db";
-import RecipeForm from "@/components/recipeForm";
+import RecipeForm from "@/components/forms/recipeForm";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import SignInButton from "@/components/signInButton";
+import SignInButton from "@/components/shared/signInButton";
 
 export default async function NewRecipePage() {
   const session = await getServerSession(authOptions);

@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
-import Categories from "@/components/categories";
-import Recipes from "@/components/recipes";
-import { Hero } from "@/components/hero";
+import Categories from "@/components/recipes/categories";
+import Recipes from "@/components/recipes/recipes";
+import { Hero } from "@/components/shared/hero";
 
 export default async function Home({
   searchParams,

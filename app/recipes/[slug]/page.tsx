@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import ReviewsSection from "@/components/reviews";
+import ReviewsSection from "@/components/reviews/reviews";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
