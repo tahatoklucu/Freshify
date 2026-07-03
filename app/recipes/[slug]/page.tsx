@@ -54,17 +54,20 @@ export default async function RecipeDetailPage({
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
             {selectedRecipe.name}
           </h1>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs">
+          <Link
+            href={`/profile/${selectedRecipe.user?.profileToken}`}
+            className="flex items-center gap-2 mb-4 group"
+          >
+            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600 text-xs group-hover:ring-2 group-hover:ring-orange-300 transition-all">
               {selectedRecipe.user?.name?.charAt(0) || "U"}
             </div>
             <p className="text-slate-600 font-medium">
               By{" "}
-              <span className="font-bold text-slate-900">
+              <span className="font-bold text-slate-900 group-hover:text-orange-600 transition-colors">
                 {selectedRecipe.user?.name || "Anonymous"}
               </span>
             </p>
-          </div>
+          </Link>
           <p className="text-orange-600 font-bold">
             ⭐ {averageRating.toFixed(1)} / 5.0 ({reviewCount} reviews)
           </p>
