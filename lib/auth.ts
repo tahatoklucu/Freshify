@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         (session.user as any).profileToken = token.profileToken;
-
+        
         const dbUser = await db.user.findUnique({
           where: { id: session.user.id },
           select: { name: true, image: true },

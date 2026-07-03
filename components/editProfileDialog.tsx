@@ -6,8 +6,8 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { updateProfile } from "@/app/actions/user";
-import { Pencil } from "lucide-react";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Pencil, Trash2 } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export function EditProfileDialog({ user }: { user: any }) {
   const { update } = useSession();
@@ -26,28 +26,28 @@ export function EditProfileDialog({ user }: { user: any }) {
     }
   };
 
+  const handleRemovePhoto = () => {
+    setPreview(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    
-    const formData = new FormData(e.currentTarget);
-    const newName = formData.get("name") as string;
 
-    // 1. Veritabanını güncelle
-    await updateProfile(user.id, { 
-      name: newName,
-      image: preview || undefined
-    });
+    const newName = new FormData(e.currentTarget).get("name") as string;
+    const imageToSave =
+      preview && preview.startsWith("data:image") ? preview : null;
 
-    // 2. Navbar ve diğer bileşenlerin güncellenmesi için session'ı yenile
-    await update({
-      ...user,
+    await updateProfile(user.id, {
       name: newName,
-      image: preview
+      image: imageToSave,
     });
+    await update({ name: newName });
 
     setLoading(false);
     setOpen(false);
+
+    window.location.reload();
   };
 
   return (
@@ -61,21 +61,45 @@ export function EditProfileDialog({ user }: { user: any }) {
         <h2 className="font-black text-xl mb-4">Edit Profile</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col items-center gap-4">
-            <Avatar className="w-24 h-24">
-              <AvatarImage src={preview || ""} />
+            <Avatar className="w-24 h-24 mx-auto">
+              {preview ? <AvatarImage src={preview} /> : null}
+              <AvatarFallback>{user.name?.charAt(0) || "U"}</AvatarFallback>
             </Avatar>
-            <label className="cursor-pointer text-xs font-bold text-orange-600 hover:underline">
-              Change Photo
-              <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
-            </label>
+
+            <div className="flex gap-4">
+              <label className="cursor-pointer text-xs font-bold text-orange-600 hover:underline">
+                Change Photo
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
+
+              {preview && (
+                <button
+                  type="button"
+                  onClick={handleRemovePhoto}
+                  className="text-xs font-bold text-red-500 hover:underline flex items-center gap-1"
+                >
+                  <Trash2 size={12} /> Remove
+                </button>
+              )}
+            </div>
           </div>
-          <Input 
-            name="name" 
-            defaultValue={user.name} 
-            placeholder="Full Name" 
-            className="h-11" 
+
+          <Input
+            name="name"
+            defaultValue={user.name}
+            placeholder="Full Name"
+            className="h-11"
           />
-          <Button type="submit" disabled={loading} className="w-full bg-orange-600">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-orange-600"
+          >
             {loading ? "Saving..." : "Save Changes"}
           </Button>
         </form>
