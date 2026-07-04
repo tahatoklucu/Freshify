@@ -85,7 +85,7 @@ function SecurityForm() {
         <div className="space-y-3 p-4 bg-red-50/50 border border-red-100 rounded-2xl">
           <h3 className="text-sm font-black text-red-600 uppercase tracking-wide">Delete Account</h3>
           <p className="text-xs text-red-500/80">Once you delete your account, there is no going back. This is permanent.</p>
-          <button onClick={() => setShowConfirm(true)} className="bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-red-700 transition-all flex items-center gap-2">
+          <button onClick={() => setShowConfirm(true)} className="bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-red-700 transition-all flex items-center gap-2 cursor-pointer">
             <Trash2 size={14} /> Delete Account
           </button>
         </div>
@@ -97,13 +97,13 @@ function SecurityForm() {
             <h3 className="text-lg font-black">Are you sure?</h3>
             <p className="text-sm text-slate-500">This will permanently delete your account and all associated data.</p>
             <div className="flex gap-3">
-              <button onClick={() => setShowConfirm(false)} className="flex-1 px-4 py-2 rounded-xl font-bold text-sm bg-slate-100">Cancel</button>
+              <button onClick={() => setShowConfirm(false)} className="flex-1 px-4 py-2 rounded-xl font-bold text-sm bg-slate-100 cursor-pointer">Cancel</button>
               <button onClick={async () => {
                 setIsDeletePending(true);
                 const res = await deleteAccount();
                 if (res?.success) await signOut({ callbackUrl: "/" });
                 else setIsDeletePending(false);
-              }} className="flex-1 px-4 py-2 rounded-xl font-bold text-sm bg-red-600 text-white">
+              }} className="flex-1 px-4 py-2 rounded-xl font-bold text-sm bg-red-600 text-white cursor-pointer">
                 {isDeletePending ? "Deleting..." : "Yes, Delete"}
               </button>
             </div>
