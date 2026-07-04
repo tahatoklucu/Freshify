@@ -54,8 +54,10 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         const dbUser = await db.user.findUnique({
           where: { id: user.id },
-          select: { profileToken: true },
+          select: { profileToken: true, password: true },
         });
+
+        token.password = dbUser?.password;
 
         if (dbUser && !dbUser.profileToken) {
           const newToken = crypto.randomUUID();
@@ -74,6 +76,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string;
         (session.user as any).profileToken = token.profileToken;
+        (session.user as any).password = token.password;
         
         const dbUser = await db.user.findUnique({
           where: { id: session.user.id },
