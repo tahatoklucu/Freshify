@@ -20,21 +20,19 @@ export default function SettingsPage() {
         </div>
         <h1 className="text-3xl font-black text-slate-900">Account Security</h1>
       </div>
-      <div className="bg-white border border-slate-100 rounded-3xl p-6 mb-8 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xl border-4 border-slate-50 overflow-hidden">
+      <div className="bg-white border border-slate-100 rounded-3xl p-6 mb-8 shadow-sm flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+        <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-2xl border-4 border-slate-50 overflow-hidden shrink-0">
              {session?.user?.image ? (
                 <img src={session.user.image} alt="Profile" className="w-full h-full object-cover" />
              ) : (
                 session?.user?.name?.charAt(0).toUpperCase()
              )}
-          </div>
-          <div>
-            <h2 className="text-lg font-black text-slate-900">{session?.user?.name || "User"}</h2>
-            <div className="flex items-center gap-4 text-slate-500 text-sm mt-1">
-              <span className="flex items-center gap-1"><Mail size={14} /> {session?.user?.email}</span>
-              <span className="flex items-center gap-1"><Calendar size={14} /> Joined {formatDate((session?.user as any)?.createdAt)}</span>
-            </div>
+        </div>
+        <div className="min-w-0">
+          <h2 className="text-lg font-black text-slate-900 truncate">{session?.user?.name || "User"}</h2>
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-4 text-slate-500 text-sm mt-1">
+            <span className="flex items-center gap-1"><Mail size={14} className="shrink-0" /> {session?.user?.email}</span>
+            <span className="flex items-center gap-1"><Calendar size={14} className="shrink-0" /> Joined {formatDate((session?.user as any)?.createdAt)}</span>
           </div>
         </div>
       </div>
@@ -72,8 +70,8 @@ function SecurityForm() {
           </button>
         </form>
       ) : (
-        <div className="flex items-center gap-4 p-6 bg-orange-50 border border-orange-100 rounded-3xl text-orange-700">
-          <AlertCircle className="shrink-0" />
+        <div className="flex items-start sm:items-center gap-4 p-6 bg-orange-50 border border-orange-100 rounded-3xl text-orange-700">
+          <AlertCircle className="shrink-0 mt-1 sm:mt-0" />
           <div>
             <h3 className="font-black">External Account</h3>
             <p className="text-sm">Password management is not available for accounts linked to Google.</p>
