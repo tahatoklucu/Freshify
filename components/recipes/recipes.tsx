@@ -131,10 +131,10 @@ export default function Recipes({
 
                 <div className="flex items-center justify-between border-t border-slate-50 pt-3 md:pt-4 mt-auto">
                   <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-400">
-                    <LucideClock className="w-3 h-3" /> 45m
+                    <LucideClock className="w-3 h-3" /> {recipe.cookingTime}m
                   </div>
                   <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-400">
-                    <LucideFlame className="w-3 h-3" /> Medium
+                    <LucideFlame className="w-3 h-3" /> {recipe.heatLevel}
                   </div>
                 </div>
               </div>

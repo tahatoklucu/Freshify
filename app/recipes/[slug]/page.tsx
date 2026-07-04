@@ -78,7 +78,7 @@ export default async function RecipeDetailPage({
               </span>
             </p>
           </Link>
-          <p className="text-orange-600 font-bold">
+          <p className="text-orange-600 font-bold mb-4">
             ⭐ {averageRating.toFixed(1)} / 5.0 ({reviewCount} reviews)
           </p>
           <p className="text-slate-500 text-lg max-w-3xl leading-relaxed">
@@ -144,6 +144,45 @@ export default async function RecipeDetailPage({
           </div>
           <div className="lg:col-span-5">
             <div className="sticky top-24">
+              <div className="bg-white border border-slate-100 p-6 rounded-3xl shadow-xl shadow-slate-100/50 mb-5">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="h-6 w-1.5 bg-orange-500 rounded-full"></div>
+                  <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                    Recipe Essentials
+                  </h3>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-white p-4 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                      Duration
+                    </p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-xl font-black text-slate-900">
+                        {selectedRecipe.cookingTime}
+                      </span>
+                      <span className="text-xs font-bold text-orange-500 pb-1">
+                        min
+                      </span>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 text-slate-100 text-4xl">
+                      ⏱
+                    </div>
+                  </div>
+                  <div className="relative overflow-hidden bg-gradient-to-br from-orange-50 to-white p-4 rounded-2xl border border-orange-100">
+                    <p className="text-[10px] font-bold text-orange-400/80 uppercase tracking-widest mb-1">
+                      Heat
+                    </p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-sm font-black text-orange-600 uppercase">
+                        {selectedRecipe.heatLevel?.replace("_", " ")}
+                      </span>
+                    </div>
+                    <div className="absolute -bottom-2 -right-2 text-orange-100 text-4xl opacity-10">
+                      🔥
+                    </div>
+                  </div>
+                </div>
+              </div>
               <ReviewsSection
                 itemId={selectedRecipe.id}
                 initialReviews={selectedRecipe.reviews}

@@ -123,6 +123,41 @@ export default function RecipeForm({
               rows={3}
               className="w-full bg-slate-50 p-4 md:p-6 rounded-xl md:rounded-2xl border-none outline-none focus:ring-2 focus:ring-orange-500/20 resize-none"
             ></textarea>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 ml-1">
+                  Cooking Time (minutes)
+                </label>
+                <input
+                  name="cookingTime"
+                  type="number"
+                  required
+                  placeholder="e.g. 45"
+                  className="w-full p-4 rounded-xl md:rounded-2xl bg-slate-50 border-none outline-none focus:ring-2 focus:ring-orange-500/20"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 ml-1">
+                  Heat Level
+                </label>
+                <select
+                  name="heatLevel"
+                  required
+                  className="w-full p-4 rounded-xl md:rounded-2xl bg-slate-50 border-none outline-none focus:ring-2 focus:ring-orange-500/20 text-slate-600"
+                >
+                  <option value="VERY_LOW">Very Low</option>
+                  <option value="LOW">Low</option>
+                  <option value="MEDIUM_LOW">Medium-Low</option>
+                  <option value="MEDIUM">Medium</option>
+                  <option value="MEDIUM_HIGH">Medium-High</option>
+                  <option value="HIGH">High</option>
+                  <option value="VERY_HIGH">Very High</option>
+                </select>
+              </div>
+            </div>
+
             <div className="pt-2 md:pt-6">
               <h3 className="text-md md:text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
                 <Sparkles className="text-orange-500" size={18} /> Ingredients

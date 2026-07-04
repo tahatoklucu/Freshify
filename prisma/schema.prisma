@@ -8,6 +8,16 @@ generator client {
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
+enum HeatLevel {
+  VERY_LOW
+  LOW
+  MEDIUM_LOW
+  MEDIUM
+  MEDIUM_HIGH
+  HIGH
+  VERY_HIGH
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -44,6 +54,8 @@ model Item {
   description String?
   rating      Float   @default(0)
   ratingCount Int     @default(0)
+  heatLevel   HeatLevel @default(MEDIUM)
+  cookingTime Int     @default(30)
 
   ingredients  String[]
   instructions String[]

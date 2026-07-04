@@ -14,6 +14,8 @@ export async function createRecipe(formData: FormData) {
 
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
+  const cookingTime = parseInt(formData.get("cookingTime") as string);
+  const heatLevel = formData.get("heatLevel") as any;
   const imageFile = formData.get("image") as File;
   const categoryId = formData.get("categoryId") as string;
 
@@ -33,6 +35,8 @@ export async function createRecipe(formData: FormData) {
       name,
       slug,
       description,
+      cookingTime,
+      heatLevel,
       imageUrl,
       ingredients,
       instructions,
