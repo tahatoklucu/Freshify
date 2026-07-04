@@ -78,9 +78,11 @@ export default async function RecipeDetailPage({
               </span>
             </p>
           </Link>
+          
           <p className="text-orange-600 font-bold mb-4">
             ⭐ {averageRating.toFixed(1)} / 5.0 ({reviewCount} reviews)
           </p>
+          
           <p className="text-slate-500 text-lg max-w-3xl leading-relaxed">
             {selectedRecipe.description}
           </p>
