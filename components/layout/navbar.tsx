@@ -17,7 +17,7 @@ export default async function Navbar() {
               <LucideChefHat className="w-5 h-5" />
             </div>
             <span className="text-xl font-black tracking-tight text-slate-900 group-hover:text-orange-600 transition-colors">
-              Whisk
+              Freshify
             </span>
           </Link>
         </div>

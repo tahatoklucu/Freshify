@@ -12,7 +12,7 @@ export default function ContactPage() {
             
             <div className="space-y-6">
               {[
-                { icon: Mail, title: "Support", value: "hello@whisk.com" },
+                { icon: Mail, title: "Support", value: "hello@freshify.com" },
                 { icon: MessageSquare, title: "Chat", value: "Join our discord channel" }
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-5 p-6 rounded-3xl bg-slate-50 hover:bg-orange-50 transition-all cursor-pointer group">

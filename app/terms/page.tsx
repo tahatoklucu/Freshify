@@ -12,7 +12,7 @@ export default function TermsOfService() {
             
             <div className="border-l-4 border-orange-500 pl-8">
               <h3 className="text-2xl font-bold text-slate-900 mb-3">2. Intellectual Property</h3>
-              <p>Whisk respects the creativity of its users. You retain full ownership of the recipes you post. By sharing content, you grant Whisk a non-exclusive license to display, distribute, and promote your work within our platform.</p>
+              <p>Freshify respects the creativity of its users. You retain full ownership of the recipes you post. By sharing content, you grant Freshify a non-exclusive license to display, distribute, and promote your work within our platform.</p>
             </div>
   
             <div className="border-l-4 border-orange-500 pl-8">

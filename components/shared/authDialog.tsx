@@ -70,7 +70,7 @@ export default function AuthDialog({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-orange-600">
-              {showSignup ? "Create Account" : "Whisk"}
+              {showSignup ? "Create Account" : "Freshify"}
             </h2>
             <p className="text-sm text-slate-500 mt-2">
               {showSignup

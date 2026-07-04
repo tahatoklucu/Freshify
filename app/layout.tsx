@@ -14,8 +14,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Whisk | Discover & Share Delicious Recipes",
-  description: "Explore practical, delicious, and easy-to-cook recipes made right at your home.",
+  title: "Freshify | Discover & Share Fresh Recipes",
+  description: "Explore practical, delicious, and easy-to-cook recipes made fresh in your home kitchen.",
 };
 
 export default function RootLayout({

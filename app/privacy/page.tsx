@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
           <div className="space-y-10 text-slate-600">
             <div className="border-l-4 border-orange-500 pl-8">
               <h3 className="text-2xl font-bold text-slate-900 mb-3">1. Information We Collect</h3>
-              <p>We collect information you explicitly share with us, including your profile data, the recipes you create, and usage interactions to enhance your personalized experience on Whisk.</p>
+              <p>We collect information you explicitly share with us, including your profile data, the recipes you create, and usage interactions to enhance your personalized experience on Freshify.</p>
             </div>
             
             <div className="border-l-4 border-orange-500 pl-8">
