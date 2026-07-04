@@ -80,12 +80,13 @@ export const authOptions: NextAuthOptions = {
         
         const dbUser = await db.user.findUnique({
           where: { id: session.user.id },
-          select: { name: true, image: true },
+          select: { name: true, image: true, createdAt: true },
         });
 
         if (dbUser) {
           session.user.name = dbUser.name;
           session.user.image = dbUser.image;
+          (session.user as any).createdAt = dbUser.createdAt;
         }
       }
       return session;
