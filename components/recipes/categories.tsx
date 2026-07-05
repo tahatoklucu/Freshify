@@ -50,13 +50,13 @@ export default function Categories({ categories }: { categories: Category[] }) {
                   {category.name}
                 </h3>
                 {category.description && (
-                  <p className="hidden md:block text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                  <p className="hidden md:block text-[10px] text-slate-600 font-bold uppercase tracking-widest">
                     {category.description}
                   </p>
                 )}
               </div>
 
-              <div className="mt-3 md:mt-4 text-[10px] md:text-xs font-bold text-orange-500">
+              <div className="mt-3 md:mt-4 text-[10px] md:text-xs font-bold text-orange-600">
                 Explore →
               </div>
             </Link>

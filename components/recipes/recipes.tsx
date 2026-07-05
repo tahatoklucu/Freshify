@@ -118,7 +118,7 @@ export default function Recipes({
                     <span className="font-extrabold text-slate-900 text-xs max-sm:hidden">
                       {averageRating.toFixed(1)}
                     </span>
-                    <span className="text-[10px] font-medium text-slate-400 tracking-wide">
+                    <span className="text-[10px] font-medium text-slate-600 tracking-wide">
                       ({reviewCount}
                       <span className="hidden md:inline ml-1">Reviews</span>)
                     </span>
@@ -130,10 +130,10 @@ export default function Recipes({
                 </h3>
 
                 <div className="flex items-center justify-between border-t border-slate-50 pt-3 md:pt-4 mt-auto">
-                  <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-400">
+                  <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-600">
                     <LucideClock className="w-3 h-3" /> {recipe.cookingTime}m
                   </div>
-                  <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-400">
+                  <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-600">
                     <LucideFlame className="w-3 h-3" /> {recipe.heatLevel}
                   </div>
                 </div>
