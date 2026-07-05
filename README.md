@@ -29,3 +29,7 @@ Built with a modern, robust, and scalable full-stack architecture:
 * **Authentication:** Secure sign-in and user profile management.
 * **Responsive Design:** Optimized for mobile, tablet, and desktop devices.
 * **Performance Focused:** Leveraging the latest Next.js features for speed and efficiency.
+
+---
+
+![Freshify Performance Score](public/images/extra/performance-desktop.png)
