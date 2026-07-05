@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 
 export async function updateProfile(
@@ -22,4 +23,13 @@ export async function updateProfile(
   revalidatePath(`/profile/[token]`); 
   revalidatePath(`/recipes/[slug]`, "page");
   return { success: true };
+}
+
+export async function uploadImageAction(file: File) {
+  const blob = await put(file.name, file, { 
+    access: 'public',
+    addRandomSuffix: true
+  });
+  
+  return blob.url;
 }
