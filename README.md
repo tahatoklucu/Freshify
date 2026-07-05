@@ -32,4 +32,28 @@ Built with a modern, robust, and scalable full-stack architecture:
 
 ---
 
+## ⚡ Performance & Optimization
+
+Freshify has been engineered for top-tier performance, achieving a perfect **100/100 Lighthouse Performance score**. The application is optimized for speed, accessibility, and SEO, ensuring a seamless user experience.
+
 ![Freshify Performance Score](public/images/extra/performance-desktop.png)
+
+### Key Metrics
+
+| Metric | Score / Value |
+| :--- | :---: |
+| **Performance** | 100 |
+| **Accessibility** | 96 |
+| **Best Practices** | 100 |
+| **SEO** | 100 |
+
+### Highlights
+
+* **First Contentful Paint:** 0.2s 🚀
+* **Largest Contentful Paint:** 0.4s ✨
+* **Cumulative Layout Shift:** 0 🎯
+* **Total Blocking Time:** 20ms ⏱️
+
+> *All metrics are audited with Google PageSpeed Insights, ensuring professional-grade web standards.*
+
+
