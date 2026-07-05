@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { updateProfile } from "@/app/actions/user";
+import { uploadImageAction } from "@/app/actions/user";
 import { Pencil, Trash2 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
@@ -13,43 +14,54 @@ export function EditProfileDialog({ user }: { user: any }) {
   const { update } = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(user.image);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setPreview(URL.createObjectURL(selectedFile));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    setLoading(true);
+
+    try {
+      let imageUrl = preview;
+
+      if (file) {
+        imageUrl = await uploadImageAction(file);
+      }
+
+      const formData = new FormData(formRef.current);
+      const newName = (formData.get("name") as string).trim();
+
+      await updateProfile(user.id, {
+        name: newName,
+        image: imageUrl,
+      });
+
+      await update({ name: newName, image: imageUrl });
+
+      setOpen(false);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleRemovePhoto = () => {
     setPreview(null);
+    setFile(null);
   };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const newName = (formData.get("name") as string).trim();
-
-    if (!newName) {
-      alert("Name cannot be empty!");
-      return;
-  }
-
-    setLoading(true);
-    
-    await updateProfile(user.id, { name: newName, image: preview ?? undefined });
-    await update({ name: newName });
-    
-    setLoading(false);
-    setOpen(false);
-    window.location.reload();
-};
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -60,10 +72,11 @@ export function EditProfileDialog({ user }: { user: any }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[400px]">
         <h2 className="font-black text-xl mb-4">Edit Profile</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
           <div className="flex flex-col items-center gap-4">
             <Avatar className="w-24 h-24 mx-auto">
-              {preview ? <AvatarImage src={preview} /> : null}
+              {preview && <AvatarImage src={preview} />}
+
               <AvatarFallback>{user.name?.charAt(0) || "U"}</AvatarFallback>
             </Avatar>
 
@@ -98,6 +111,7 @@ export function EditProfileDialog({ user }: { user: any }) {
             required
             minLength={2}
           />
+
           <Button
             type="submit"
             disabled={loading}
