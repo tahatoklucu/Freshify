@@ -22,9 +22,19 @@ export async function createRecipe(formData: FormData) {
   const ingredients = JSON.parse(formData.get("ingredients") as string);
   const instructions = JSON.parse(formData.get("instructions") as string);
 
-  let imageUrl = "";
+  console.log("Gelen dosya bilgisi:", imageFile ? imageFile.name : "Dosya yok!");
+
+  let imageUrl: string | null = null;
   if (imageFile && imageFile.size > 0) {
-    const blob = await put(imageFile.name, imageFile, { access: 'public' });
+    const uniqueFileName = `${Date.now()}-${imageFile.name.replace(
+      /\s+/g,
+      "-"
+    )}`;
+
+    const blob = await put(uniqueFileName, imageFile, {
+      access: "public",
+      contentType: imageFile.type,
+    });
     imageUrl = blob.url;
   }
 
@@ -47,4 +57,30 @@ export async function createRecipe(formData: FormData) {
 
   revalidatePath("/");
   redirect(`/recipes/${recipe.slug}`);
+}
+
+export async function deleteRecipe(itemId: string) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    return { success: false, message: "Unauthorized" };
+  }
+
+  const existingRecipe = await db.item.findUnique({
+    where: { id: itemId },
+  });
+
+  if (!existingRecipe || existingRecipe.userId !== session.user.id) {
+    return {
+      success: false,
+      message: "Item not found or you are not the owner",
+    };
+  }
+
+  await db.item.delete({
+    where: { id: itemId },
+  });
+
+  revalidatePath("/");
+  return { success: true, message: "Recipe deleted successfully" };
 }

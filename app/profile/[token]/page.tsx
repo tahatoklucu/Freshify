@@ -9,9 +9,10 @@ import {
   LucideMessageSquare,
   Mail,
 } from "lucide-react";
-import RecipeList from "@/components/recipes/recipeList";
 import ReviewList from "@/components/reviews/reviewList";
 import { EditProfileDialog } from "@/components/forms/editProfileDialog";
+import Link from "next/link";
+import DeleteButton from "@/components/shared/deleteButton";
 
 export default async function ProfilePage({
   params,
@@ -77,14 +78,42 @@ export default async function ProfilePage({
         </h2>
 
         {(user.items || []).length > 0 ? (
-          <RecipeList items={user.items} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {user.items.map((item: any) => (
+              <div key={item.id} className="relative group">
+                {isOwner && (
+                  <div className="absolute top-3 right-3 z-50">
+                    <DeleteButton itemId={item.id} />
+                  </div>
+                )}
+                <Link
+                  href={`/recipes/${item.slug}`}
+                  className="group block bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-orange-600 transition-all overflow-hidden h-full"
+                >
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                    {item.imageUrl && (
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    )}
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-orange-600 transition-colors mb-2 line-clamp-1">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-slate-500 line-clamp-2 mb-4">
+                      {item.description}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
         ) : (
-          <div className="py-12 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-            <p className="text-slate-400 font-medium">
-              {isOwner
-                ? "You haven't added any recipes yet."
-                : "This user hasn't shared any recipes yet."}
-            </p>
+          <div className="py-12 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+            <p className="text-slate-400 font-medium">No recipes shared yet.</p>
           </div>
         )}
       </section>

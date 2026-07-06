@@ -78,11 +78,11 @@ export default async function RecipeDetailPage({
               </span>
             </p>
           </Link>
-          
+
           <p className="text-orange-600 font-bold mb-4">
             ⭐ {averageRating.toFixed(1)} / 5.0 ({reviewCount} reviews)
           </p>
-          
+
           <p className="text-slate-500 text-lg max-w-3xl leading-relaxed">
             {selectedRecipe.description}
           </p>
@@ -91,14 +91,21 @@ export default async function RecipeDetailPage({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7 space-y-8">
             <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl bg-slate-100 shadow-sm border border-slate-100">
-              <Image
-                src={selectedRecipe.imageUrl || ""}
-                alt={selectedRecipe.name}
-                className="w-full h-full object-cover"
-                fill
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                priority={true}
-              />
+              {selectedRecipe.imageUrl &&
+              selectedRecipe.imageUrl.trim() !== "" ? (
+                <Image
+                  src={selectedRecipe.imageUrl}
+                  alt={selectedRecipe.name}
+                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  priority={true}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-slate-400 font-bold">
+                  No Image Available
+                </div>
+              )}
             </div>
 
             <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm space-y-10">
