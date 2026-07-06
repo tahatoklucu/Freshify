@@ -22,8 +22,6 @@ export async function createRecipe(formData: FormData) {
   const ingredients = JSON.parse(formData.get("ingredients") as string);
   const instructions = JSON.parse(formData.get("instructions") as string);
 
-  console.log("Gelen dosya bilgisi:", imageFile ? imageFile.name : "Dosya yok!");
-
   let imageUrl: string | null = null;
   if (imageFile && imageFile.size > 0) {
     const uniqueFileName = `${Date.now()}-${imageFile.name.replace(
