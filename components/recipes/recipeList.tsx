@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { CalendarDays } from "lucide-react";
+import Image from "next/image";
 
 export default function RecipeList({ items }: { items: any[] }) {
   const [showAll, setShowAll] = useState(false);
@@ -18,7 +19,7 @@ export default function RecipeList({ items }: { items: any[] }) {
           >
             <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
               {item.imageUrl && (
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={item.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

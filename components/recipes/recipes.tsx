@@ -71,7 +71,6 @@ export default function Recipes({
         </div>
       )}
 
-      {/* Tarif Kartları Grid Yapısı */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {recipes?.map((recipe) => {
           const reviews = recipe.reviews || [];
@@ -86,15 +85,20 @@ export default function Recipes({
               key={recipe.id}
               className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-orange-100 transition-all duration-300 flex flex-col overflow-hidden"
             >
-              {/* Görsel Bölümü */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                <Image
-                  src={recipe.imageUrl || ""}
-                  alt={recipe.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                />
+                {recipe.imageUrl && recipe.imageUrl.trim() !== "" ? (
+                  <Image
+                    src={recipe.imageUrl}
+                    alt={recipe.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                    No Image
+                  </div>
+                )}
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider text-slate-700 shadow-sm">
                   Popular
                 </div>

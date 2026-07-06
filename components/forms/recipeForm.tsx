@@ -9,7 +9,6 @@ import {
   X,
 } from "lucide-react";
 import { createRecipe } from "@/app/actions/new";
-import Image from "next/image";
 
 export default function RecipeForm({
   categories,
@@ -18,13 +17,12 @@ export default function RecipeForm({
 }) {
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setPreview(url);
+      setFileName(file.name);
     }
   };
 
@@ -55,42 +53,35 @@ export default function RecipeForm({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
-          <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-2 border-dashed border-slate-200 hover:border-orange-500 transition-colors text-center group cursor-pointer relative overflow-hidden">
-            {preview ? (
-              <div className="relative w-full h-48 md:h-64">
-                <Image
-                  src={preview}
-                  alt="Preview"
-                  fill
-                  className="object-cover rounded-xl md:rounded-2xl"
-                  unoptimized
-                />
-                <button
-                  type="button"
-                  onClick={() => setPreview(null)}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full z-10"
-                >
-                  <X size={16} />
-                </button>
+          <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-2 border-dashed border-slate-200 hover:border-orange-500 transition-colors text-center group cursor-pointer">
+            <label htmlFor="image" className="cursor-pointer block">
+              <input
+                type="file"
+                name="image"
+                id="image"
+                required
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <div
+                className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 transition-colors ${
+                  fileName
+                    ? "bg-green-50 text-green-600"
+                    : "bg-orange-50 text-orange-600"
+                }`}
+              >
+                <ImageIcon size={28} />
               </div>
-            ) : (
-              <label htmlFor="image" className="cursor-pointer">
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-orange-50 text-orange-600 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform">
-                  <ImageIcon size={28} />
-                </div>
-                <span className="font-bold text-sm md:text-base text-slate-900">
-                  Upload recipe cover image
+              <span className="font-bold text-sm md:text-base text-slate-900 block">
+                {fileName ? fileName : "Upload your recipe image"}
+              </span>
+              {!fileName && (
+                <span className="text-xs text-slate-400 mt-1 block">
+                  PNG, JPG up to 5MB
                 </span>
-              </label>
-            )}
+              )}
+            </label>
           </div>
 
           <div className="bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm border border-slate-100 space-y-6">
