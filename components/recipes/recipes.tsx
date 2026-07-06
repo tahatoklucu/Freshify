@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Item, Review } from "@prisma/client";
+import { Item } from "@prisma/client";
 
 interface Recipe extends Item {
   reviews?: { rating: number }[];
@@ -71,28 +71,29 @@ export default function Recipes({
         </div>
       )}
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
+      {/* Tarif Kartları Grid Yapısı */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {recipes?.map((recipe) => {
           const reviews = recipe.reviews || [];
-
           const totalRating = reviews.reduce((acc, rev) => acc + rev.rating, 0);
-
           const averageRating =
             reviews.length > 0 ? totalRating / reviews.length : 0;
           const reviewCount = reviews.length;
+
           return (
             <Link
               href={`/recipes/${recipe.slug}`}
               key={recipe.id}
               className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-orange-100 transition-all duration-300 flex flex-col overflow-hidden"
             >
+              {/* Görsel Bölümü */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
                 <Image
                   src={recipe.imageUrl || ""}
                   alt={recipe.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider text-slate-700 shadow-sm">
                   Popular
@@ -113,14 +114,13 @@ export default function Recipes({
                       />
                     ))}
                   </div>
-
                   <div className="flex items-baseline gap-1.5 leading-none">
                     <span className="font-extrabold text-slate-900 text-xs max-sm:hidden">
                       {averageRating.toFixed(1)}
                     </span>
                     <span className="text-[10px] font-medium text-slate-600 tracking-wide">
                       ({reviewCount}
-                      <span className="hidden md:inline ml-1">Reviews</span>)
+                      <span className=" ml-1">Reviews</span>)
                     </span>
                   </div>
                 </div>
@@ -129,12 +129,14 @@ export default function Recipes({
                   {recipe.name}
                 </h3>
 
-                <div className="flex items-center justify-between border-t border-slate-50 pt-3 md:pt-4 mt-auto">
-                  <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-600">
-                    <LucideClock className="w-3 h-3" /> {recipe.cookingTime}m
+                <div className="flex items-center justify-between border-t border-slate-50 pt-4 mt-auto">
+                  <div className="flex items-center gap-2 text-[11px] font-bold text-slate-600">
+                    <LucideClock className="w-3.5 h-3.5 text-slate-400" />{" "}
+                    {recipe.cookingTime}m
                   </div>
-                  <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] font-bold text-slate-600">
-                    <LucideFlame className="w-3 h-3" /> {recipe.heatLevel}
+                  <div className="flex items-center gap-2 text-[11px] font-bold text-slate-600">
+                    <LucideFlame className="w-3.5 h-3.5 text-slate-400" />{" "}
+                    {recipe.heatLevel}
                   </div>
                 </div>
               </div>
