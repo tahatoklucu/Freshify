@@ -17,5 +17,5 @@ export async function updateUser(id: string, formData: FormData) {
 
 export async function deleteUser(id: string) {
   await db.user.delete({ where: { id } });
-  revalidatePath("/admin/users"); // Tabloyu otomatik yeniler
+  revalidatePath("/admin/users");
 }
