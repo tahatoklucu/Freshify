@@ -54,12 +54,17 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         const dbUser = await db.user.findUnique({
           where: { id: user.id },
-          select: { profileToken: true, password: true },
+          select: { profileToken: true, password: true, role: true },
         });
 
-        token.password = dbUser?.password;
+        if (!dbUser) {
+          return token;
+        }
 
-        if (dbUser && !dbUser.profileToken) {
+        token.password = dbUser.password;
+        token.role = dbUser.role;
+
+        if (!dbUser.profileToken) {
           const newToken = crypto.randomUUID();
           await db.user.update({
             where: { id: user.id },
@@ -67,7 +72,7 @@ export const authOptions: NextAuthOptions = {
           });
           token.profileToken = newToken;
         } else {
-          token.profileToken = dbUser?.profileToken;
+          token.profileToken = dbUser.profileToken;
         }
       }
       return token;
@@ -75,18 +80,20 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        (session.user as any).role = token.role;
         (session.user as any).profileToken = token.profileToken;
         (session.user as any).password = token.password;
         
         const dbUser = await db.user.findUnique({
           where: { id: session.user.id },
-          select: { name: true, image: true, createdAt: true },
+          select: { name: true, image: true, createdAt: true, role: true },
         });
 
         if (dbUser) {
           session.user.name = dbUser.name;
           session.user.image = dbUser.image;
           (session.user as any).createdAt = dbUser.createdAt;
+          (session.user as any).role = dbUser.role;
         }
       }
       return session;
