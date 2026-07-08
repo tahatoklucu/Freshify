@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
-import { EditUserDialog } from "./edit-user-dialog";
-import { DeleteUserDialog } from "./delete-user-dialog";
+import { EditUserDialog } from "@/components/admin/edit-user-dialog";
+import { DeleteUserDialog } from "@/components/admin/delete-user-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function UsersPage() {
