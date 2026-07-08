@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { updateRecipe } from "@/app/actions/admin-actions"; // Güncelleme action'ını buraya yazmalısın
+import { updateRecipe } from "@/app/actions/admin-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
