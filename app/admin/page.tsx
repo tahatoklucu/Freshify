@@ -89,14 +89,11 @@ export default async function AdminDashboard() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <Badge
-                      variant="secondary"
-                      className="text-xs hidden sm:flex"
-                    >
-                      {recipe.categoryId}
-                    </Badge>
                     <Button variant="ghost" size="sm" className="h-8">
                       Edit
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8">
+                      Delete
                     </Button>
                   </div>
                 </div>
