@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react";
-import { deleteUser } from "./actions";
+import { deleteUser } from "@/app/actions/admin-actions";
 import { Button } from "@/components/ui/button";
 import { 
   Dialog, 
