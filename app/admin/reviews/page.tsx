@@ -60,9 +60,11 @@ export default async function ReviewsPage() {
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button variant="ghost" size="icon">
-                        <Link href={`/recipes/${review.item.slug}`}>
+                        <Button variant="ghost" size="icon" asChild>
+                          <Link href={`/recipes/${review.item.id}`}>
                             <Eye className="h-4 w-4" />
-                        </Link>
+                          </Link>
+                        </Button>
                       </Button>
                       <DeleteReviewDialog reviewId={review.id}>
                         <Button
