@@ -51,3 +51,20 @@ export async function updateRecipe(id: string, formData: FormData) {
     return { success: false, error: "Database update error." };
   }
 }
+
+export async function deleteReview(id: string) {
+  try {
+    await db.review.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    revalidatePath("/admin/reviews");
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Delete Error:", error);
+    return { success: false, error: "The comment failed to be deleted." };
+  }
+}

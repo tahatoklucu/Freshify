@@ -1,14 +1,29 @@
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, LayoutDashboard, Users, Utensils } from "lucide-react";
+import {
+  Menu,
+  LayoutDashboard,
+  Users,
+  Utensils,
+  MessageSquare,
+} from "lucide-react";
 import Link from "next/link";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[250px_1fr]">
       <aside className="hidden md:flex flex-col border-r bg-gray-50/40 p-6">
         <div className="font-bold text-xl mb-8">Freshify Admin</div>
-        <nav className="flex flex-col gap-2">
+        <nav className="flex flex-col gap-3">
           <SidebarLinks />
         </nav>
       </aside>
@@ -25,13 +40,32 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div className="font-bold text-xl mb-8">Freshify Admin</div>
               <nav className="flex flex-col gap-2">
                 <SheetClose asChild>
-                  <SidebarItem href="/admin" label="Dashboard" icon={<LayoutDashboard className="h-4 w-4" />} />
+                  <SidebarItem
+                    href="/admin"
+                    label="Dashboard"
+                    icon={<LayoutDashboard className="h-4 w-4" />}
+                  />
                 </SheetClose>
                 <SheetClose asChild>
-                  <SidebarItem href="/admin/users" label="User Management" icon={<Users className="h-4 w-4" />} />
+                  <SidebarItem
+                    href="/admin/users"
+                    label="User Management"
+                    icon={<Users className="h-4 w-4" />}
+                  />
                 </SheetClose>
                 <SheetClose asChild>
-                  <SidebarItem href="/admin/recipes" label="Recipe Management" icon={<Utensils className="h-4 w-4" />} />
+                  <SidebarItem
+                    href="/admin/recipes"
+                    label="Recipe Management"
+                    icon={<Utensils className="h-4 w-4" />}
+                  />
+                </SheetClose>
+                <SheetClose asChild>
+                  <SidebarItem
+                    href="/admin/reviews"
+                    label="Review Management"
+                    icon={<MessageSquare className="h-4 w-4" />}
+                  />
                 </SheetClose>
               </nav>
             </SheetContent>
@@ -50,14 +84,39 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 function SidebarLinks() {
   return (
     <>
-      <SidebarItem href="/admin" label="Dashboard" icon={<LayoutDashboard className="h-4 w-4" />} />
-      <SidebarItem href="/admin/users" label="User Management" icon={<Users className="h-4 w-4" />} />
-      <SidebarItem href="/admin/recipes" label="Recipe Management" icon={<Utensils className="h-4 w-4" />} />
+      <SidebarItem
+        href="/admin"
+        label="Dashboard"
+        icon={<LayoutDashboard className="h-4 w-4" />}
+      />
+      <SidebarItem
+        href="/admin/users"
+        label="User Management"
+        icon={<Users className="h-4 w-4" />}
+      />
+      <SidebarItem
+        href="/admin/recipes"
+        label="Recipe Management"
+        icon={<Utensils className="h-4 w-4" />}
+      />
+      <SidebarItem
+        href="/admin/reviews"
+        label="Review Management"
+        icon={<MessageSquare className="h-4 w-4" />}
+      />
     </>
   );
 }
 
-function SidebarItem({ href, label, icon }: { href: string; label: string; icon: React.ReactNode }) {
+function SidebarItem({
+  href,
+  label,
+  icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+}) {
   return (
     <Button
       asChild
