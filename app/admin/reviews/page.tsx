@@ -1,11 +1,8 @@
-import { db } from "@/lib/db";
 import { ReviewCard } from "@/components/admin/review-card";
+import { getAdminReviews } from "@/lib/services/admin";
 
 export default async function ReviewsPage() {
-  const reviews = await db.review.findMany({
-    include: { user: true, item: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const reviews = await getAdminReviews();
 
   return (
     <div className="p-4 md:p-8">

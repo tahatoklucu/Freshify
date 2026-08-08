@@ -11,12 +11,14 @@ interface AuthDialogProps {
   children?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  callbackUrl?: string;
 }
 
 export default function AuthDialog({
   children,
   open,
   onOpenChange,
+  callbackUrl = "/",
 }: AuthDialogProps) {
   const [internalOpen, setInternalOpen] = useState(false);
 
@@ -40,7 +42,7 @@ export default function AuthDialog({
         await signIn("credentials", {
           email: formData.get("email"),
           password: formData.get("password"),
-          redirectTo: "/",
+          callbackUrl,
         });
       } else {
         setError(result.message);
@@ -51,13 +53,14 @@ export default function AuthDialog({
         email: formData.get("email"),
         password: formData.get("password"),
         redirect: false,
+        callbackUrl,
       });
 
       if (res?.error) {
         setError("Invalid email or password");
         setLoading(false);
       } else {
-        window.location.reload();
+        window.location.href = callbackUrl;
       }
     }
   };
@@ -151,7 +154,7 @@ export default function AuthDialog({
           variant="outline"
           type="button"
           className="w-full h-11 rounded-lg border-slate-200 transition-all flex items-center justify-center gap-3 cursor-pointer"
-          onClick={() => signIn("google", { redirectTo: "/" })}
+          onClick={() => signIn("google", { callbackUrl })}
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LucideChefHat, User } from "lucide-react";
-import AuthDialog from "@/components/shared/authDialog";
+import AuthDialogLazy from "@/components/shared/auth-dialog-lazy";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import NavbarDropdown from "./navbarDropdown";
@@ -25,19 +25,20 @@ export default async function Navbar() {
         <div className="flex-1 flex items-center justify-end">
           {session ? (
             <NavbarDropdown
-            user={{
-              name: session.user.name,
-              image: session.user.image,
-              profileToken: (session.user as any).profileToken,
-            }}
-          />
+              user={{
+                name: session.user.name,
+                image: session.user.image,
+                profileToken: (session.user as { profileToken?: string })
+                  .profileToken,
+              }}
+            />
           ) : (
-            <AuthDialog>
+            <AuthDialogLazy>
               <button className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 cursor-pointer">
                 <User className="w-4 h-4" />
                 <span>Log In</span>
               </button>
-            </AuthDialog>
+            </AuthDialogLazy>
           )}
         </div>
       </div>

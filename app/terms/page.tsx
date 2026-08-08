@@ -1,3 +1,5 @@
+export const revalidate = 86400;
+
 export default function TermsOfService() {
     return (
       <main className="min-h-screen bg-white py-24 px-6">

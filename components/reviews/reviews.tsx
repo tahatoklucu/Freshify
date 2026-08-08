@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { addReview, deleteReview, updateReview } from "@/app/actions/review";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ReviewsSection({
   itemId,
@@ -119,9 +120,11 @@ export default function ReviewsSection({
               className="w-10 h-10 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center font-bold text-xs hover:ring-2 hover:ring-orange-500 transition-all shrink-0"
             >
               {review.user?.image ? (
-                <img
+                <Image
                   src={review.user.image}
                   alt={review.user.name || "User"}
+                  width={40}
+                  height={40}
                   className="w-full h-full object-cover"
                 />
               ) : (

@@ -7,14 +7,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Item } from "@prisma/client";
-
-interface Recipe extends Item {
-  reviews?: { rating: number }[];
-}
+import type { RecipeListItem } from "@/lib/services/recipes";
 
 interface RecipesProps {
-  recipes: Recipe[];
+  recipes: RecipeListItem[];
   categoryName?: string;
   categoryDescription?: string;
 }
@@ -73,11 +69,8 @@ export default function Recipes({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
         {recipes?.map((recipe) => {
-          const reviews = recipe.reviews || [];
-          const totalRating = reviews.reduce((acc, rev) => acc + rev.rating, 0);
-          const averageRating =
-            reviews.length > 0 ? totalRating / reviews.length : 0;
-          const reviewCount = reviews.length;
+          const averageRating = recipe.rating ?? 0;
+          const reviewCount = recipe.ratingCount ?? 0;
 
           return (
             <Link

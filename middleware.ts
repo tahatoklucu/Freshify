@@ -7,17 +7,19 @@ export async function middleware(request: NextRequest) {
     const token = await getToken({ req: request });
 
     if (!token) {
-      return NextResponse.redirect(new URL("/error", request.url));
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
+      return NextResponse.redirect(loginUrl);
     }
 
     if (token.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
+
   return NextResponse.next();
-  
 }
 
 export const config = {
-    matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*"],
 };

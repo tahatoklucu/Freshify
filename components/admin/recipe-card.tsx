@@ -23,6 +23,7 @@ export function RecipeCard({ recipe }: { recipe: any }) {
               src={recipe.imageUrl}
               alt={recipe.name}
               fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
               className="object-cover"
             />
           ) : (
