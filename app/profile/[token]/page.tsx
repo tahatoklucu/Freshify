@@ -1,4 +1,3 @@
-import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -12,7 +11,9 @@ import {
 import ReviewList from "@/components/reviews/reviewList";
 import { EditProfileDialog } from "@/components/forms/editProfileDialog";
 import Link from "next/link";
+import Image from "next/image";
 import DeleteButton from "@/components/shared/deleteButton";
+import { getProfileByToken } from "@/lib/services/profiles";
 
 export default async function ProfilePage({
   params,
@@ -21,18 +22,12 @@ export default async function ProfilePage({
 }) {
   const { token } = await params;
   const session = await getServerSession(authOptions);
-
-  const user: any = await db.user.findUnique({
-    where: { profileToken: token },
-    include: {
-      items: { include: { reviews: true } },
-      review: { include: { item: true }, orderBy: { createdAt: "desc" } },
-    },
-  });
+  const user = await getProfileByToken(token);
 
   if (!user) return notFound();
 
   const isOwner = session?.user?.id === user.id;
+  const ownerEmail = isOwner ? session?.user?.email : null;
 
   return (
     <div className="container mx-auto py-12 px-4 max-w-4xl">
@@ -44,17 +39,26 @@ export default async function ProfilePage({
               {user.name?.[0]}
             </AvatarFallback>
           </Avatar>
-          {isOwner && <EditProfileDialog user={user} />}
+          {isOwner && (
+            <EditProfileDialog
+              user={{
+                id: user.id,
+                name: user.name,
+                image: user.image,
+                profileToken: user.profileToken,
+              }}
+            />
+          )}
         </div>
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-4xl font-black text-slate-900 mb-2">
             {user.name}
           </h1>
           <div className="flex flex-wrap justify-center md:justify-start gap-4 text-slate-500 mt-4">
-            {isOwner && (
+            {isOwner && ownerEmail && (
               <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
                 <Mail className="w-4 h-4" />
-                <span className="text-sm">{user.email}</span>
+                <span className="text-sm">{ownerEmail}</span>
               </div>
             )}
             <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
@@ -79,7 +83,7 @@ export default async function ProfilePage({
 
         {(user.items || []).length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {user.items.map((item: any) => (
+            {user.items.map((item) => (
               <div key={item.id} className="relative group">
                 {isOwner && (
                   <div className="absolute top-3 right-3 z-50">
@@ -92,10 +96,12 @@ export default async function ProfilePage({
                 >
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
                     {item.imageUrl && (
-                      <img
+                      <Image
                         src={item.imageUrl}
                         alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     )}
                   </div>

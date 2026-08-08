@@ -38,8 +38,6 @@ async function main() {
       data: {
         ...item,
         description: "This is a high-quality recipe ingredient and step-by-step guide.",
-        rating: 4.5,
-        ratingCount: 100,
         ingredients: ["Ingredient 1", "Ingredient 2", "Secret Component"],
         instructions: ["Step 1: Preparation", "Step 2: Cooking", "Step 3: Serving"],
         userId: user.id,
@@ -51,6 +49,20 @@ async function main() {
         { content: "Excellent recipe, loved the flavors!", rating: 5, itemId: createdItem.id, userId: user.id },
         { content: "Very easy to follow and delicious.", rating: 4, itemId: createdItem.id, userId: user.id },
       ],
+    });
+
+    const aggregates = await prisma.review.aggregate({
+      where: { itemId: createdItem.id },
+      _avg: { rating: true },
+      _count: { rating: true },
+    });
+
+    await prisma.item.update({
+      where: { id: createdItem.id },
+      data: {
+        rating: aggregates._avg.rating ?? 0,
+        ratingCount: aggregates._count.rating,
+      },
     });
   }
 

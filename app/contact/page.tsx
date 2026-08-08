@@ -1,5 +1,7 @@
 import { Mail, MessageSquare, ArrowRight } from "lucide-react";
 
+export const revalidate = 86400;
+
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-white py-24 px-6">

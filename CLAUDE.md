@@ -25,7 +25,7 @@
 
 ## Security & Validation
 - **Validation:** All form inputs and API payloads must be validated using `zod`.
-- **Authorization:** Every Server Action must include an `auth()` check at the start.
+- **Authorization:** Every Server Action must call `requireAuth()` or `requireAdmin()` from `lib/require-auth.ts` at the start.
 - **Sensitive Data:** Never pass raw database models directly to Client Components if they contain sensitive fields (use DTOs or manual mapping).
 
 ## Coding Standards

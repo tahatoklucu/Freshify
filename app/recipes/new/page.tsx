@@ -1,16 +1,11 @@
-import { db } from "@/lib/db";
 import RecipeForm from "@/components/forms/recipeForm";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import SignInButton from "@/components/shared/signInButton";
+import { getCategoryOptions } from "@/lib/services/categories";
 
 export default async function NewRecipePage() {
   const session = await getServerSession(authOptions);
-
-  const categories = await db.category.findMany({
-    select: { id: true, name: true },
-    orderBy: { name: "asc" }
-  });
 
   if (!session) {
     return (
@@ -19,13 +14,19 @@ export default async function NewRecipePage() {
           <div className="w-20 h-20 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-3xl">👋</span>
           </div>
-          <h2 className="text-3xl font-black text-slate-900 mb-4">Hello, Chef!</h2>
-          <p className="text-slate-500 mb-8">Please sign in to share your delicious recipes with our community.</p>
+          <h2 className="text-3xl font-black text-slate-900 mb-4">
+            Hello, Chef!
+          </h2>
+          <p className="text-slate-500 mb-8">
+            Please sign in to share your delicious recipes with our community.
+          </p>
           <SignInButton />
         </div>
       </div>
     );
   }
+
+  const categories = await getCategoryOptions();
 
   return <RecipeForm categories={categories} />;
 }

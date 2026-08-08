@@ -27,7 +27,11 @@ export default function RootLayout({
     <html lang="en" className={cn("h-full", inter.variable)}>
       <body className={cn("font-sans antialiased bg-slate-50 text-slate-900 min-h-screen flex flex-col")}>
         <Providers>
-          <Suspense>
+          <Suspense
+            fallback={
+              <header className="sticky top-0 z-50 w-full h-16 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl" />
+            }
+          >
             <Navbar />
           </Suspense>
           <main className="flex-grow">{children}</main>

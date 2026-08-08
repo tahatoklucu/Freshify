@@ -1,12 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { db } from "@/lib/db";
 import { RecipeCard } from "@/components/admin/recipe-card";
+import { getAdminRecipes } from "@/lib/services/admin";
 
 export default async function RecipesPage() {
-  const recipes = await db.item.findMany({
-    include: { category: true },
-  });
+  const recipes = await getAdminRecipes();
 
   return (
     <div className="p-4 md:p-8 space-y-6">

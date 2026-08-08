@@ -1,4 +1,3 @@
-import { db } from "@/lib/db";
 import {
   LucideUtensils,
   LucideListOrdered,
@@ -6,9 +5,26 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import ReviewsSection from "@/components/reviews/reviews";
 import Image from "next/image";
+import { Suspense } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getRecipeBySlug, getRecipeSlugs } from "@/lib/services/recipes";
+import RecipeReviews from "./recipe-reviews";
+
+export async function generateStaticParams() {
+  const recipes = await getRecipeSlugs();
+  return recipes.map((recipe) => ({ slug: recipe.slug }));
+}
+
+function ReviewsSkeleton() {
+  return (
+    <div className="bg-white border border-slate-100 p-6 rounded-3xl shadow-sm space-y-4 animate-pulse">
+      <div className="h-6 w-32 bg-slate-200 rounded" />
+      <div className="h-24 bg-slate-100 rounded-2xl" />
+      <div className="h-24 bg-slate-100 rounded-2xl" />
+    </div>
+  );
+}
 
 export default async function RecipeDetailPage({
   params,
@@ -16,27 +32,14 @@ export default async function RecipeDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const selectedRecipe = await db.item.findUnique({
-    where: { slug: slug },
-    include: {
-      user: true,
-      reviews: { include: { user: true } },
-    },
-  });
+  const selectedRecipe = await getRecipeBySlug(slug);
 
   if (!selectedRecipe) {
     notFound();
   }
 
-  const totalRating = selectedRecipe?.reviews.reduce(
-    (acc, rev) => acc + rev.rating,
-    0
-  );
-  const averageRating =
-    selectedRecipe.reviews.length > 0
-      ? totalRating / selectedRecipe.reviews.length
-      : 0;
-  const reviewCount = selectedRecipe.reviews.length;
+  const averageRating = selectedRecipe.rating ?? 0;
+  const reviewCount = selectedRecipe.ratingCount ?? 0;
 
   return (
     <div className="min-h-screen bg-slate-50/50 pb-20">
@@ -99,7 +102,7 @@ export default async function RecipeDetailPage({
                   className="w-full h-full object-cover"
                   fill
                   sizes="(max-width: 1024px) 100vw, 58vw"
-                  priority={true}
+                  priority
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-slate-400 font-bold">
@@ -192,11 +195,9 @@ export default async function RecipeDetailPage({
                   </div>
                 </div>
               </div>
-              <ReviewsSection
-                itemId={selectedRecipe.id}
-                initialReviews={selectedRecipe.reviews}
-                slug={slug}
-              />
+              <Suspense fallback={<ReviewsSkeleton />}>
+                <RecipeReviews itemId={selectedRecipe.id} slug={slug} />
+              </Suspense>
             </div>
           </div>
         </div>

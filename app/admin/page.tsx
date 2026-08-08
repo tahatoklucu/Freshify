@@ -1,22 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { db } from "@/lib/db";
 import { Users, Utensils, Star, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { getAdminDashboardData } from "@/lib/services/admin";
 
 export default async function AdminDashboard() {
-  const [userCount, recipeCount, reviewCount, recentRecipes] =
-    await Promise.all([
-      db.user.count(),
-      db.item.count(),
-      db.review.count(),
-      db.item.findMany({
-        take: 5,
-        orderBy: {
-          id: "desc",
-        },
-      }),
-    ]);
+  const { userCount, recipeCount, reviewCount, recentRecipes } =
+    await getAdminDashboardData();
 
   return (
     <div className="w-full p-4 md:p-8 space-y-8 animate-in fade-in duration-500">
@@ -65,20 +56,20 @@ export default async function AdminDashboard() {
                   className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-100 last:border-0"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    {" "}
-                    <div className="w-10 h-10 rounded bg-slate-100 flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="relative w-10 h-10 rounded bg-slate-100 flex items-center justify-center shrink-0 overflow-hidden">
                       {recipe.imageUrl ? (
-                        <img
+                        <Image
                           src={recipe.imageUrl}
                           alt={recipe.name}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="40px"
+                          className="object-cover"
                         />
                       ) : (
                         <Utensils className="w-4 h-4 text-slate-400" />
                       )}
                     </div>
                     <div className="min-w-0">
-                      {" "}
                       <p className="font-medium text-sm text-slate-900 truncate">
                         {recipe.name}
                       </p>

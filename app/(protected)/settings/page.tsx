@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Save, AlertCircle, Trash2, Lock, Mail, Calendar } from "lucide-react";
 import { updatePassword, deleteAccount } from "@/app/actions/auth";
+import Image from "next/image";
 
 export default function SettingsPage() {
   const { data: session } = useSession();
@@ -21,9 +22,15 @@ export default function SettingsPage() {
         <h1 className="text-3xl font-black text-slate-900">Account Security</h1>
       </div>
       <div className="bg-white border border-slate-100 rounded-3xl p-6 mb-8 shadow-sm flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-        <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-2xl border-4 border-slate-50 overflow-hidden shrink-0">
+        <div className="relative w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-2xl border-4 border-slate-50 overflow-hidden shrink-0">
              {session?.user?.image ? (
-                <img src={session.user.image} alt="Profile" className="w-full h-full object-cover" />
+                <Image
+                  src={session.user.image}
+                  alt="Profile"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
              ) : (
                 session?.user?.name?.charAt(0).toUpperCase()
              )}
